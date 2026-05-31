@@ -13,6 +13,8 @@
     @endif
 </div>
 
+@include('partials.search-box', ['placeholder' => 'عنوان تیکت، مشتری، پروژه یا پرسنل را جستجو کنید...', 'value' => $search ?? ''])
+
 <div class="card">
     <div class="card-header d-flex justify-content-between align-items-center">
         <h5 class="mb-0 fw-bold">لیست تیکت‌ها</h5>

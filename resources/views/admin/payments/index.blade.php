@@ -15,6 +15,8 @@
     </div>
 </div>
 
+@include('partials.search-box', ['placeholder' => 'مشتری، پروژه، ماه پرداخت یا وضعیت را جستجو کنید...', 'value' => $search ?? ''])
+
 <div class="card">
     <div class="card-header d-flex justify-content-between align-items-center">
         <h5 class="mb-0 fw-bold">لیست پرداخت‌ها</h5>
@@ -38,7 +40,7 @@
                     <tr>
                         <td class="fw-semibold">{{ $payment->customer->name }}</td>
                         <td>{{ $payment->project?->title ?? '-' }}</td>
-                        <td>{{ number_format($payment->amount) }} تومان</td>
+                        <td>{{ \App\Support\Currency::toman($payment->amount) }}</td>
                         <td>{{ $payment->payment_month ?? '-' }}</td>
                         <td>@include('partials.status-badge', ['status' => $payment->status])</td>
                         <td>

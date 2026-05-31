@@ -11,6 +11,8 @@
     <a href="{{ route('admin.projects.create') }}" class="btn btn-primary">افزودن پروژه</a>
 </div>
 
+@include('partials.search-box', ['placeholder' => 'عنوان پروژه، نام مشتری یا شماره تماس را جستجو کنید...', 'value' => $search ?? ''])
+
 <div class="card">
     <div class="card-header d-flex justify-content-between align-items-center">
         <h5 class="mb-0 fw-bold">لیست پروژه‌ها</h5>
@@ -35,10 +37,10 @@
                     <tr>
                         <td class="fw-semibold">{{ $project->title }}</td>
                         <td>{{ $project->customer?->name ?? '-' }}</td>
-                        <td>{{ number_format($project->initial_fee) }} تومان</td>
-                        <td>{{ number_format($project->monthly_fee) }} تومان</td>
-                        <td><span class="badge bg-danger-subtle text-danger">{{ number_format($project->remainingDebt()) }} تومان</span></td>
-                        <td><span class="badge bg-success-subtle text-success">{{ number_format($project->creditBalance()) }} تومان</span></td>
+                        <td>{{ \App\Support\Currency::toman($project->initial_fee) }}</td>
+                        <td>{{ \App\Support\Currency::toman($project->monthly_fee) }}</td>
+                        <td><span class="badge bg-danger-subtle text-danger">{{ \App\Support\Currency::toman($project->remainingDebt()) }}</span></td>
+                        <td><span class="badge bg-success-subtle text-success">{{ \App\Support\Currency::toman($project->creditBalance()) }}</span></td>
                         <td>
                             @php($projectStatus = ['active' => 'فعال', 'inactive' => 'غیرفعال', 'completed' => 'تمام‌شده'])
                             <span class="badge bg-secondary-subtle text-secondary">{{ $projectStatus[$project->status] ?? $project->status }}</span>

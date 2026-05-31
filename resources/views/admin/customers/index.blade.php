@@ -11,6 +11,8 @@
     <a href="{{ route('admin.customers.create') }}" class="btn btn-primary">افزودن مشتری</a>
 </div>
 
+@include('partials.search-box', ['placeholder' => 'نام، شرکت یا شماره تماس مشتری را جستجو کنید...', 'value' => $search ?? ''])
+
 <div class="card">
     <div class="card-header d-flex justify-content-between align-items-center">
         <h5 class="mb-0 fw-bold">لیست مشتریان</h5>

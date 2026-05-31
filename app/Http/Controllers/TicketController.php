@@ -13,9 +13,10 @@ use Illuminate\Http\Request;
 
 class TicketController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $user = auth()->user();
+        $search = $request->string('q')->toString();
 
         $query = Ticket::with(['customer', 'project', 'assignedStaff'])->latest();
 
@@ -27,9 +28,29 @@ class TicketController extends Controller
             $query->where('assigned_to', $user->id);
         }
 
-        $tickets = $query->paginate(15);
+        if ($search) {
+            $query->where(function ($query) use ($search) {
+                $query->where('title', 'like', "%{$search}%")
+                    ->orWhere('description', 'like', "%{$search}%")
+                    ->orWhere('phone', 'like', "%{$search}%")
+                    ->orWhereHas('customer', function ($query) use ($search) {
+                        $query->where('name', 'like', "%{$search}%")
+                            ->orWhere('company_name', 'like', "%{$search}%")
+                            ->orWhere('phone', 'like', "%{$search}%");
+                    })
+                    ->orWhereHas('project', function ($query) use ($search) {
+                        $query->where('title', 'like', "%{$search}%");
+                    })
+                    ->orWhereHas('assignedStaff', function ($query) use ($search) {
+                        $query->where('name', 'like', "%{$search}%")
+                            ->orWhere('phone', 'like', "%{$search}%");
+                    });
+            });
+        }
 
-        return view('tickets.index', compact('tickets'));
+        $tickets = $query->paginate(15)->withQueryString();
+
+        return view('tickets.index', compact('tickets', 'search'));
     }
 
     public function create()

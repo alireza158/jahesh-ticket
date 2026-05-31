@@ -15,13 +15,13 @@
     <div class="col-md-6">
         <div class="card p-4 h-100">
             <div class="text-muted mb-2">مانده بدهی کل پروژه‌ها</div>
-            <h3 class="fw-bold text-danger mb-0">{{ number_format($remainingDebt) }} تومان</h3>
+            <h3 class="fw-bold text-danger mb-0">{{ \App\Support\Currency::toman($remainingDebt) }}</h3>
         </div>
     </div>
     <div class="col-md-6">
         <div class="card p-4 h-100">
             <div class="text-muted mb-2">بستانکاری کل</div>
-            <h3 class="fw-bold text-success mb-0">{{ number_format($creditBalance) }} تومان</h3>
+            <h3 class="fw-bold text-success mb-0">{{ \App\Support\Currency::toman($creditBalance) }}</h3>
         </div>
     </div>
 </div>
@@ -43,16 +43,18 @@
                 @foreach($projects as $project)
                     <tr>
                         <td class="fw-semibold">{{ $project->title }}</td>
-                        <td>{{ number_format($project->initial_fee) }} تومان</td>
-                        <td>{{ number_format($project->monthly_fee) }} تومان</td>
-                        <td><span class="badge bg-danger-subtle text-danger">{{ number_format($project->remainingDebt()) }} تومان</span></td>
-                        <td><span class="badge bg-success-subtle text-success">{{ number_format($project->creditBalance()) }} تومان</span></td>
+                        <td>{{ \App\Support\Currency::toman($project->initial_fee) }}</td>
+                        <td>{{ \App\Support\Currency::toman($project->monthly_fee) }}</td>
+                        <td><span class="badge bg-danger-subtle text-danger">{{ \App\Support\Currency::toman($project->remainingDebt()) }}</span></td>
+                        <td><span class="badge bg-success-subtle text-success">{{ \App\Support\Currency::toman($project->creditBalance()) }}</span></td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
     </div>
 </div>
+
+@include('partials.search-box', ['placeholder' => 'پروژه، ماه پرداخت یا وضعیت را جستجو کنید...', 'value' => $search ?? ''])
 
 <div class="card">
     <div class="card-header"><h5 class="mb-0 fw-bold">سوابق پرداخت</h5></div>
@@ -72,7 +74,7 @@
                 @forelse($payments as $payment)
                     <tr>
                         <td class="fw-semibold">{{ $payment->project?->title ?? '-' }}</td>
-                        <td>{{ number_format($payment->amount) }} تومان</td>
+                        <td>{{ \App\Support\Currency::toman($payment->amount) }}</td>
                         <td>{{ $payment->payment_month ?? '-' }}</td>
                         <td>{{ \App\Support\JalaliDate::format($payment->paid_at, 'Y/m/d') }}</td>
                         <td>@include('partials.status-badge', ['status' => $payment->status])</td>

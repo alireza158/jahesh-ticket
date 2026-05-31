@@ -16,10 +16,10 @@
 </div>
 
 <div class="row g-4 mb-4">
-    <div class="col-md-6 col-xl-3"><div class="card p-4 h-100"><div class="text-muted mb-2">هزینه اولیه</div><h4 class="fw-bold mb-0">{{ number_format($project->initial_fee) }} تومان</h4></div></div>
-    <div class="col-md-6 col-xl-3"><div class="card p-4 h-100"><div class="text-muted mb-2">هزینه ماهانه</div><h4 class="fw-bold mb-0">{{ number_format($project->monthly_fee) }} تومان</h4></div></div>
-    <div class="col-md-6 col-xl-3"><div class="card p-4 h-100"><div class="text-muted mb-2">مانده بدهی</div><h4 class="fw-bold text-danger mb-0">{{ number_format($project->remainingDebt()) }} تومان</h4></div></div>
-    <div class="col-md-6 col-xl-3"><div class="card p-4 h-100"><div class="text-muted mb-2">بستانکاری</div><h4 class="fw-bold text-success mb-0">{{ number_format($project->creditBalance()) }} تومان</h4></div></div>
+    <div class="col-md-6 col-xl-3"><div class="card p-4 h-100"><div class="text-muted mb-2">هزینه اولیه</div><h4 class="fw-bold mb-0">{{ \App\Support\Currency::toman($project->initial_fee) }}</h4></div></div>
+    <div class="col-md-6 col-xl-3"><div class="card p-4 h-100"><div class="text-muted mb-2">هزینه ماهانه</div><h4 class="fw-bold mb-0">{{ \App\Support\Currency::toman($project->monthly_fee) }}</h4></div></div>
+    <div class="col-md-6 col-xl-3"><div class="card p-4 h-100"><div class="text-muted mb-2">مانده بدهی</div><h4 class="fw-bold text-danger mb-0">{{ \App\Support\Currency::toman($project->remainingDebt()) }}</h4></div></div>
+    <div class="col-md-6 col-xl-3"><div class="card p-4 h-100"><div class="text-muted mb-2">بستانکاری</div><h4 class="fw-bold text-success mb-0">{{ \App\Support\Currency::toman($project->creditBalance()) }}</h4></div></div>
 </div>
 
 <div class="row g-4">
@@ -30,8 +30,8 @@
                 <dl class="row mb-0 gy-3">
                     <dt class="col-5 text-muted">مشتری</dt><dd class="col-7 mb-0">{{ $project->customer?->name ?? '-' }}</dd>
                     <dt class="col-5 text-muted">وضعیت</dt><dd class="col-7 mb-0">{{ ['active' => 'فعال', 'inactive' => 'غیرفعال', 'completed' => 'تمام‌شده'][$project->status] ?? $project->status }}</dd>
-                    <dt class="col-5 text-muted">بدهکاری دستی</dt><dd class="col-7 mb-0">{{ number_format($project->debt_adjustment) }} تومان</dd>
-                    <dt class="col-5 text-muted">بستانکاری دستی</dt><dd class="col-7 mb-0">{{ number_format($project->credit_adjustment) }} تومان</dd>
+                    <dt class="col-5 text-muted">بدهکاری دستی</dt><dd class="col-7 mb-0">{{ \App\Support\Currency::toman($project->debt_adjustment) }}</dd>
+                    <dt class="col-5 text-muted">بستانکاری دستی</dt><dd class="col-7 mb-0">{{ \App\Support\Currency::toman($project->credit_adjustment) }}</dd>
                     <dt class="col-12 text-muted">یادداشت مالی</dt><dd class="col-12 mb-0">{{ $project->finance_note ?: '-' }}</dd>
                     <dt class="col-12 text-muted">توضیحات</dt><dd class="col-12 mb-0 lh-lg">{{ $project->description ?: '-' }}</dd>
                 </dl>
@@ -60,7 +60,7 @@
                     <tbody>
                         @forelse($project->payments as $payment)
                             <tr>
-                                <td class="fw-semibold">{{ number_format($payment->amount) }} تومان</td>
+                                <td class="fw-semibold">{{ \App\Support\Currency::toman($payment->amount) }}</td>
                                 <td>{{ $payment->payment_month ?? '-' }}</td>
                                 <td>{{ \App\Support\JalaliDate::format($payment->paid_at, 'Y/m/d') }}</td>
                                 <td>@include('partials.status-badge', ['status' => $payment->status])</td>

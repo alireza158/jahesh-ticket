@@ -11,6 +11,8 @@
     <div class="badge bg-white text-primary fs-6 px-3 py-2">ماه بررسی: {{ $currentMonth }}</div>
 </div>
 
+@include('partials.search-box', ['placeholder' => 'نام، شرکت یا شماره تماس مشتری بدهکار را جستجو کنید...', 'value' => $search ?? ''])
+
 <div class="card">
     <div class="card-header d-flex justify-content-between align-items-center">
         <h5 class="mb-0 fw-bold">لیست بدهکارها</h5>

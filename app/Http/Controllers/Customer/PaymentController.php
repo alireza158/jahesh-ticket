@@ -11,9 +11,10 @@ use InvalidArgumentException;
 
 class PaymentController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $customerId = auth()->user()->customer_id;
+        $search = $request->string('q')->toString();
 
         $projects = Project::with('payments')
             ->where('customer_id', $customerId)
@@ -24,10 +25,20 @@ class PaymentController extends Controller
 
         $payments = Payment::with('project')
             ->where('customer_id', $customerId)
+            ->when($search, function ($query) use ($search) {
+                $query->where(function ($query) use ($search) {
+                    $query->where('payment_month', 'like', "%{$search}%")
+                        ->orWhere('status', 'like', "%{$search}%")
+                        ->orWhereHas('project', function ($query) use ($search) {
+                            $query->where('title', 'like', "%{$search}%");
+                        });
+                });
+            })
             ->latest()
-            ->paginate(15);
+            ->paginate(15)
+            ->withQueryString();
 
-        return view('customer.payments.index', compact('payments', 'projects', 'remainingDebt', 'creditBalance'));
+        return view('customer.payments.index', compact('payments', 'projects', 'remainingDebt', 'creditBalance', 'search'));
     }
 
     public function create()

@@ -19,6 +19,8 @@
     <a href="{{ route('admin.users.create') }}" class="btn btn-primary">افزودن کاربر</a>
 </div>
 
+@include('partials.search-box', ['placeholder' => 'نام، شماره تماس یا نقش کاربر را جستجو کنید...', 'value' => $search ?? ''])
+
 <div class="card">
     <div class="card-header d-flex justify-content-between align-items-center">
         <h5 class="mb-0 fw-bold">لیست کاربران</h5>
