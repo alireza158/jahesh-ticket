@@ -23,12 +23,13 @@
                     <input name="company_name" class="form-control" value="{{ old('company_name') }}">
                 </div>
                 <div class="col-md-6">
-                    <label class="form-label fw-semibold">ایمیل</label>
-                    <input name="email" type="email" class="form-control" value="{{ old('email') }}">
+                    <label class="form-label fw-semibold">شماره تماس / نام کاربری</label>
+                    <input name="phone" class="form-control" value="{{ old('phone') }}" placeholder="09120000000" required>
+                    <div class="form-text">اکانت مشتری با همین شماره ساخته می‌شود.</div>
                 </div>
                 <div class="col-md-6">
-                    <label class="form-label fw-semibold">تلفن</label>
-                    <input name="phone" class="form-control" value="{{ old('phone') }}">
+                    <label class="form-label fw-semibold">رمز اولیه اکانت</label>
+                    <input name="account_password" type="password" class="form-control" placeholder="پیش‌فرض: 12345678">
                 </div>
                 <div class="col-12">
                     <label class="form-label fw-semibold">آدرس</label>

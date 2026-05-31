@@ -34,15 +34,15 @@
                 <div class="text-center mb-4">
                     <span class="brand-mark mx-auto mb-3">ج</span>
                     <h4 class="fw-bold mb-1">ورود به پنل جهش</h4>
-                    <p class="text-muted mb-0">اطلاعات حساب خود را وارد کنید</p>
+                    <p class="text-muted mb-0">شماره تماس و رمز عبور خود را وارد کنید</p>
                 </div>
 
                 <form method="POST" action="{{ route('login.submit') }}">
                     @csrf
 
                     <div class="mb-3">
-                        <label class="form-label fw-semibold">ایمیل</label>
-                        <input type="email" name="email" class="form-control" value="{{ old('email') }}" placeholder="example@jahesh.ir" required>
+                        <label class="form-label fw-semibold">شماره تماس</label>
+                        <input type="text" name="phone" class="form-control" value="{{ old('phone') }}" placeholder="09111111111" required>
                     </div>
 
                     <div class="mb-3">

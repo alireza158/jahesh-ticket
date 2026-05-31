@@ -29,7 +29,7 @@
             <thead>
                 <tr>
                     <th>نام</th>
-                    <th>ایمیل</th>
+                    <th>شماره تماس</th>
                     <th>نقش</th>
                     <th>مشتری</th>
                     <th class="text-end">عملیات</th>
@@ -39,7 +39,7 @@
                 @forelse($users as $user)
                     <tr>
                         <td class="fw-semibold">{{ $user->name }}</td>
-                        <td>{{ $user->email }}</td>
+                        <td>{{ $user->phone }}</td>
                         <td><span class="badge bg-dark-subtle text-dark">{{ $roleLabels[$user->role] ?? $user->role }}</span></td>
                         <td>{{ $user->customer?->name ?? '-' }}</td>
                         <td class="text-end">

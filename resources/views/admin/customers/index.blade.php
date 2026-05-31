@@ -22,8 +22,7 @@
                 <tr>
                     <th>نام</th>
                     <th>شرکت</th>
-                    <th>ایمیل</th>
-                    <th>تلفن</th>
+                    <th>شماره تماس</th>
                     <th>وضعیت</th>
                     <th class="text-end">عملیات</th>
                 </tr>
@@ -33,7 +32,6 @@
                     <tr>
                         <td class="fw-semibold">{{ $customer->name }}</td>
                         <td>{{ $customer->company_name ?? '-' }}</td>
-                        <td>{{ $customer->email ?? '-' }}</td>
                         <td>{{ $customer->phone ?? '-' }}</td>
                         <td>
                             <span class="badge {{ $customer->status === 'active' ? 'bg-success-subtle text-success' : 'bg-secondary-subtle text-secondary' }}">
@@ -51,7 +49,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="6">
+                        <td colspan="5">
                             <div class="empty-state"><div class="empty-state-icon">👥</div><div>هنوز مشتری ثبت نشده است.</div></div>
                         </td>
                     </tr>

@@ -291,7 +291,7 @@
                 <div class="card bg-white bg-opacity-10 border-0 text-white mt-4 p-3">
                     <div class="small text-white-50">کاربر وارد شده</div>
                     <div class="fw-bold">{{ auth()->user()->name }}</div>
-                    <div class="small text-white-50">{{ auth()->user()->email }}</div>
+                    <div class="small text-white-50">{{ auth()->user()->phone }}</div>
                 </div>
 
                 <form action="{{ route('logout') }}" method="POST" class="mt-3">

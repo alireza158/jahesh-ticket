@@ -20,12 +20,8 @@
                     <input name="name" class="form-control" value="{{ old('name', $user->name) }}" required>
                 </div>
                 <div class="col-md-6">
-                    <label class="form-label fw-semibold">ایمیل</label>
-                    <input name="email" type="email" class="form-control" value="{{ old('email', $user->email) }}" required>
-                </div>
-                <div class="col-md-6">
-                    <label class="form-label fw-semibold">شماره تماس</label>
-                    <input name="phone" class="form-control" value="{{ old('phone', $user->phone) }}">
+                    <label class="form-label fw-semibold">شماره تماس / نام کاربری</label>
+                    <input name="phone" class="form-control" value="{{ old('phone', $user->phone) }}" required>
                 </div>
                 <div class="col-md-6">
                     <label class="form-label fw-semibold">نقش</label>

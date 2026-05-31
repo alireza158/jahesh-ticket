@@ -24,12 +24,13 @@
                     <input name="company_name" class="form-control" value="{{ old('company_name', $customer->company_name) }}">
                 </div>
                 <div class="col-md-6">
-                    <label class="form-label fw-semibold">ایمیل</label>
-                    <input name="email" type="email" class="form-control" value="{{ old('email', $customer->email) }}">
+                    <label class="form-label fw-semibold">شماره تماس / نام کاربری</label>
+                    <input name="phone" class="form-control" value="{{ old('phone', $customer->phone) }}" required>
+                    <div class="form-text">اکانت مشتری هم با این شماره بروزرسانی می‌شود.</div>
                 </div>
                 <div class="col-md-6">
-                    <label class="form-label fw-semibold">تلفن</label>
-                    <input name="phone" class="form-control" value="{{ old('phone', $customer->phone) }}">
+                    <label class="form-label fw-semibold">رمز جدید اکانت مشتری</label>
+                    <input name="account_password" type="password" class="form-control" placeholder="برای عدم تغییر خالی بگذارید">
                 </div>
                 <div class="col-12">
                     <label class="form-label fw-semibold">آدرس</label>
