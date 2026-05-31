@@ -37,6 +37,17 @@ php artisan serve
 - شماره تماس مشتریان دمو: `09130000001`، `09130000002`، `09130000003`
 - رمز عبور همه اکانت‌های Seed: `12345678`
 
+
+## به‌روزرسانی پروژه نصب‌شده
+
+اگر پروژه را قبلاً اجرا کرده‌اید و بعد از Pull کردن تغییرات مالی پروژه‌ها با خطای نبودن ستون‌هایی مثل `initial_fee`، `monthly_fee`، `debt_adjustment` یا `credit_adjustment` روبه‌رو شدید، migrationهای جدید را روی دیتابیس فعلی اجرا کنید:
+
+```bash
+php artisan migrate
+php artisan optimize:clear
+php artisan serve
+```
+
 ## اجرای محیط توسعه
 
 ```bash
