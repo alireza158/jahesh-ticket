@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100..900&display=swap');
+
 :root {
     --app-primary: #0f172a;
     --app-primary-2: #111827;
@@ -13,18 +15,85 @@
     --app-danger: #dc2626;
     --app-radius: 18px;
     --app-shadow: 0 14px 34px rgba(15, 23, 42, .07);
+
+    --bs-font-sans-serif: 'Vazirmatn', Tahoma, Arial, sans-serif;
 }
 
-* { letter-spacing: -.01em; }
+* {
+    letter-spacing: -.01em;
+    font-family: 'Vazirmatn', Tahoma, Arial, sans-serif;
+}
+
+html,
+body {
+    font-family: 'Vazirmatn', Tahoma, Arial, sans-serif;
+    direction: rtl;
+    text-align: right;
+}
 
 body {
     min-height: 100vh;
     background: var(--app-bg);
     color: var(--app-text);
-    font-family: Tahoma, Arial, sans-serif;
+    font-family: 'Vazirmatn', Tahoma, Arial, sans-serif;
 }
 
-a { text-decoration: none; }
+body,
+button,
+input,
+textarea,
+select,
+option,
+label,
+table,
+th,
+td,
+a,
+p,
+span,
+small,
+strong,
+b,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.navbar,
+.nav-link,
+.dropdown-menu,
+.dropdown-item,
+.card,
+.card-header,
+.card-body,
+.card-footer,
+.btn,
+.form-control,
+.form-select,
+.form-label,
+.input-group-text,
+.modal,
+.modal-title,
+.modal-body,
+.alert,
+.badge,
+.table,
+.pagination,
+.page-link,
+.breadcrumb,
+.breadcrumb-item,
+.list-group,
+.list-group-item,
+.tooltip,
+.popover,
+.offcanvas {
+    font-family: 'Vazirmatn', Tahoma, Arial, sans-serif !important;
+}
+
+a {
+    text-decoration: none;
+}
 
 .app-shell {
     min-height: 100vh;
@@ -151,10 +220,14 @@ a { text-decoration: none; }
 .page-header h1,
 .page-header h2,
 .page-header h3,
-.page-header h4 { color: var(--app-primary); }
+.page-header h4 {
+    color: var(--app-primary);
+}
 
 .page-header p,
-.text-muted { color: var(--app-muted) !important; }
+.text-muted {
+    color: var(--app-muted) !important;
+}
 
 .card {
     border: 1px solid var(--app-border);
@@ -187,7 +260,9 @@ a { text-decoration: none; }
     font-size: 1.45rem;
 }
 
-.form-label { color: #334155; }
+.form-label {
+    color: #334155;
+}
 
 .form-control,
 .form-select {
@@ -229,7 +304,9 @@ a { text-decoration: none; }
     border-color: var(--app-accent);
 }
 
-.table { margin-bottom: 0; }
+.table {
+    margin-bottom: 0;
+}
 
 .table thead th {
     color: #475569;
@@ -247,7 +324,9 @@ a { text-decoration: none; }
     border-color: #edf2f7;
 }
 
-.table-hover tbody tr:hover { --bs-table-hover-bg: #f8fafc; }
+.table-hover tbody tr:hover {
+    --bs-table-hover-bg: #f8fafc;
+}
 
 .badge {
     border-radius: 999px;
@@ -255,17 +334,60 @@ a { text-decoration: none; }
     font-weight: 800;
 }
 
-.badge-status-open { background: #dbeafe; color: #1d4ed8; }
-.badge-status-in_progress { background: #cffafe; color: #0e7490; }
-.badge-status-waiting_customer { background: #fef3c7; color: #b45309; }
-.badge-status-answered { background: #dcfce7; color: #15803d; }
-.badge-status-closed { background: #e2e8f0; color: #475569; }
-.badge-status-pending { background: #fef3c7; color: #b45309; }
-.badge-status-approved { background: #dcfce7; color: #15803d; }
-.badge-status-rejected { background: #fee2e2; color: #b91c1c; }
-.badge-priority-high { background: #fee2e2; color: #b91c1c; }
-.badge-priority-medium { background: #fef3c7; color: #b45309; }
-.badge-priority-low { background: #dcfce7; color: #15803d; }
+.badge-status-open {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+.badge-status-in_progress {
+    background: #cffafe;
+    color: #0e7490;
+}
+
+.badge-status-waiting_customer {
+    background: #fef3c7;
+    color: #b45309;
+}
+
+.badge-status-answered {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.badge-status-closed {
+    background: #e2e8f0;
+    color: #475569;
+}
+
+.badge-status-pending {
+    background: #fef3c7;
+    color: #b45309;
+}
+
+.badge-status-approved {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.badge-status-rejected {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+.badge-priority-high {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+.badge-priority-medium {
+    background: #fef3c7;
+    color: #b45309;
+}
+
+.badge-priority-low {
+    background: #dcfce7;
+    color: #15803d;
+}
 
 .empty-state {
     padding: 42px 24px;
@@ -292,19 +414,26 @@ a { text-decoration: none; }
     box-shadow: var(--app-shadow);
 }
 
-.pagination { gap: 6px; }
+.pagination {
+    gap: 6px;
+}
+
 .page-link {
     border-radius: 12px !important;
     border-color: var(--app-border);
     color: var(--app-primary);
 }
+
 .active > .page-link,
 .page-link.active {
     background: var(--app-primary);
     border-color: var(--app-primary);
 }
 
-.jalali-date { direction: ltr; text-align: right; }
+.jalali-date {
+    direction: ltr;
+    text-align: right;
+}
 
 .login-hero {
     background: linear-gradient(135deg, var(--app-primary), #1e3a8a);
@@ -355,9 +484,87 @@ a { text-decoration: none; }
 }
 
 @media (max-width: 991.98px) {
-    .app-shell { display: block; }
-    .app-sidebar { display: none; }
-    .app-content { padding: 18px; }
-    .app-topbar { padding: 0 16px; }
-    .page-header { padding: 18px; }
+    .app-shell {
+        display: block;
+    }
+
+    .app-sidebar {
+        display: none;
+    }
+
+    .app-content {
+        padding: 18px;
+    }
+
+    .app-topbar {
+        padding: 0 16px;
+    }
+
+    .page-header {
+        padding: 18px;
+    }
+}
+
+.login-page {
+    background:
+        radial-gradient(circle at top right, rgba(37, 99, 235, .14), transparent 32%),
+        linear-gradient(135deg, #f8fafc, #eef2ff);
+}
+
+.login-box {
+    width: 100%;
+    max-width: 420px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 24px;
+    padding: 38px 34px;
+    box-shadow: 0 24px 60px rgba(15, 23, 42, .10);
+}
+
+.login-logo {
+    width: 58px;
+    height: 58px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, #0f172a, #2563eb);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.35rem;
+    font-weight: 900;
+}
+
+.login-box .form-label {
+    font-weight: 700;
+    color: #334155;
+    margin-bottom: 8px;
+}
+
+.login-box .form-control {
+    height: 50px;
+    border-radius: 14px;
+    border-color: #dbe3ef;
+    background: #f8fafc;
+}
+
+.login-box .form-control:focus {
+    background: #ffffff;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 .22rem rgba(37, 99, 235, .12);
+}
+
+.login-box .form-check-input {
+    border-radius: 6px;
+}
+
+.login-box .btn-primary {
+    border-radius: 14px;
+    background: #0f172a;
+    border-color: #0f172a;
+    font-weight: 800;
+}
+
+.login-box .btn-primary:hover {
+    background: #2563eb;
+    border-color: #2563eb;
 }
