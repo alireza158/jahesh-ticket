@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/jalalidatepicker/dist/jalalidatepicker.min.css">
 
     <style>
         body {
@@ -49,6 +50,11 @@
 
         .badge-priority-low {
             background: #198754;
+        }
+
+        .jalali-date {
+            direction: ltr;
+            text-align: right;
         }
     </style>
 </head>
@@ -110,5 +116,18 @@
     </div>
 </div>
 
+
+<script src="https://unpkg.com/jalalidatepicker/dist/jalalidatepicker.min.js"></script>
+<script>
+    if (window.jalaliDatepicker) {
+        jalaliDatepicker.startWatch({
+            selector: '[data-jdp]',
+            autoShow: true,
+            autoHide: true,
+            persianDigits: true,
+            format: 'YYYY/MM/DD'
+        });
+    }
+</script>
 </body>
 </html>

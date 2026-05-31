@@ -3,6 +3,15 @@
 @section('title', 'تیکت‌ها')
 
 @section('content')
+@php
+    $statusLabels = [
+        'open' => 'باز',
+        'in_progress' => 'در حال بررسی',
+        'waiting_customer' => 'در انتظار مشتری',
+        'answered' => 'پاسخ داده شده',
+        'closed' => 'بسته شده',
+    ];
+@endphp
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h4>تیکت‌ها</h4>
 
@@ -41,9 +50,9 @@
                                 <span class="badge badge-priority-low">کم</span>
                             @endif
                         </td>
-                        <td>{{ $ticket->status }}</td>
+                        <td>{{ $statusLabels[$ticket->status] ?? $ticket->status }}</td>
                         <td>{{ $ticket->assignedStaff?->name ?? '-' }}</td>
-                        <td>{{ $ticket->created_at->format('Y/m/d') }}</td>
+                        <td>{{ \App\Support\JalaliDate::format($ticket->created_at, 'Y/m/d') }}</td>
                         <td>
                             <a href="{{ route('tickets.show', $ticket) }}" class="btn btn-sm btn-outline-primary">
                                 مشاهده
