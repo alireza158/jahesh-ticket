@@ -38,63 +38,7 @@ class PaymentController extends Controller
         return view('admin.payments.index', compact('payments', 'search'));
     }
 
-    public function create(Request $request)
-    {
-        $projects = Project::with('customer')
-            ->where('status', 'active')
-            ->orderBy('title')
-            ->get();
-
-        $selectedProject = $request->filled('project_id')
-            ? Project::with('customer')->find($request->integer('project_id'))
-            : null;
-
-        return view('admin.payments.create', compact('projects', 'selectedProject'));
-    }
-
-    public function store(Request $request)
-    {
-        $data = $request->validate([
-            'project_id' => ['required', 'exists:projects,id'],
-            'amount' => ['required', 'numeric', 'min:1000'],
-            'payment_month' => ['nullable', 'string', 'max:50'],
-            'paid_at_jalali' => ['nullable', 'string', 'max:20'],
-            'receipt' => ['nullable', 'file', 'max:5120'],
-            'status' => ['required', 'in:pending,approved,rejected'],
-            'admin_note' => ['nullable', 'string'],
-        ]);
-
-        $project = Project::findOrFail($data['project_id']);
-
-        try {
-            $paidAt = JalaliDate::toGregorianDate($data['paid_at_jalali'] ?? null);
-        } catch (InvalidArgumentException $exception) {
-            return back()->withErrors(['paid_at_jalali' => $exception->getMessage()])->withInput();
-        }
-
-        $path = null;
-
-        if ($request->hasFile('receipt')) {
-            $path = $request->file('receipt')->store('receipts', 'public');
-        }
-
-        Payment::create([
-            'customer_id' => $project->customer_id,
-            'project_id' => $project->id,
-            'amount' => $data['amount'],
-            'payment_month' => $data['payment_month'] ?? JalaliDate::nowMonth(),
-            'paid_at' => $paidAt,
-            'receipt_path' => $path,
-            'status' => $data['status'],
-            'admin_note' => $data['admin_note'] ?? null,
-            'approved_by' => $data['status'] !== 'pending' ? auth()->id() : null,
-        ]);
-
-        return redirect()->route('admin.payments.index')
-            ->with('success', 'پرداخت پروژه با موفقیت ثبت شد.');
-    }
-
-    public function create(Request $request)
+    public function createForm(Request $request)
     {
         $projects = Project::with('customer')
             ->where('status', 'active')
