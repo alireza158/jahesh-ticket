@@ -4,13 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class TicketAssignment extends Model
+class TicketStatusLog extends Model
 {
     protected $fillable = [
         'ticket_id',
-        'assigned_by',
-        'assigned_to',
-        'note',
+        'changed_by',
+        'old_status',
+        'new_status',
     ];
 
     public function ticket()
@@ -18,13 +18,8 @@ class TicketAssignment extends Model
         return $this->belongsTo(Ticket::class);
     }
 
-    public function assignedBy()
+    public function changedBy()
     {
-        return $this->belongsTo(User::class, 'assigned_by');
-    }
-
-    public function assignedTo()
-    {
-        return $this->belongsTo(User::class, 'assigned_to');
+        return $this->belongsTo(User::class, 'changed_by');
     }
 }
