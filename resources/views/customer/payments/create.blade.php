@@ -24,12 +24,13 @@
 
         <div class="mb-3">
             <label class="form-label">ماه پرداخت</label>
-            <input name="payment_month" class="form-control" placeholder="مثلا 2026-05">
+            <input name="payment_month" class="form-control" placeholder="مثلا 1403/02" value="{{ old('payment_month', \App\Support\JalaliDate::nowMonth()) }}">
+            <div class="form-text">ماه پرداخت بر اساس تقویم شمسی ذخیره می‌شود.</div>
         </div>
 
         <div class="mb-3">
             <label class="form-label">تاریخ پرداخت</label>
-            <input name="paid_at" type="date" class="form-control">
+            <input name="paid_at_jalali" class="form-control jalali-date" data-jdp placeholder="1403/02/15" value="{{ old('paid_at_jalali') }}">
         </div>
 
         <div class="mb-3">

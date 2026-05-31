@@ -3,6 +3,15 @@
 @section('title', 'مشاهده تیکت')
 
 @section('content')
+@php
+    $statusLabels = [
+        'open' => 'باز',
+        'in_progress' => 'در حال بررسی',
+        'waiting_customer' => 'در انتظار مشتری',
+        'answered' => 'پاسخ داده شده',
+        'closed' => 'بسته شده',
+    ];
+@endphp
 <div class="row g-3">
     <div class="col-lg-8">
         <div class="card p-4 mb-3">
@@ -13,7 +22,7 @@
                 |
                 پروژه: {{ $ticket->project?->title ?? '-' }}
                 |
-                وضعیت: {{ $ticket->status }}
+                وضعیت: {{ $statusLabels[$ticket->status] ?? $ticket->status }}
             </div>
 
             <p>{{ $ticket->description }}</p>
@@ -49,7 +58,7 @@
                     @endif
 
                     <div class="small text-muted mt-2">
-                        {{ $reply->created_at->format('Y/m/d H:i') }}
+                        {{ \App\Support\JalaliDate::format($reply->created_at, 'Y/m/d H:i') }}
                     </div>
                 </div>
             @endforeach
@@ -141,19 +150,21 @@
             </div>
         @endif
 
-        <div class="card p-4">
-            <h5>سوابق ارجاع</h5>
+        @if(auth()->user()->role !== 'customer')
+            <div class="card p-4">
+                <h5>سوابق ارجاع</h5>
 
-            @foreach($ticket->assignments as $assignment)
-                <div class="border-bottom py-2">
-                    <div>
-                        از {{ $assignment->assignedBy->name }}
-                        به {{ $assignment->assignedTo->name }}
+                @foreach($ticket->assignments as $assignment)
+                    <div class="border-bottom py-2">
+                        <div>
+                            از {{ $assignment->assignedBy->name }}
+                            به {{ $assignment->assignedTo->name }}
+                        </div>
+                        <small class="text-muted">{{ $assignment->note }}</small>
                     </div>
-                    <small class="text-muted">{{ $assignment->note }}</small>
-                </div>
-            @endforeach
-        </div>
+                @endforeach
+            </div>
+        @endif
     </div>
 </div>
 @endsection

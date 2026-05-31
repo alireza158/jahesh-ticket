@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Payment;
 use App\Models\Customer;
+use App\Support\JalaliDate;
 use Illuminate\Http\Request;
 
 class PaymentController extends Controller
@@ -51,7 +52,7 @@ class PaymentController extends Controller
          مشتریانی که پروژه فعال دارند اما در ماه جاری پرداخت تایید شده ندارند.
         */
 
-        $currentMonth = now()->format('Y-m');
+        $currentMonth = JalaliDate::nowMonth();
 
         $customers = Customer::whereHas('projects', function ($q) {
                 $q->where('status', 'active');

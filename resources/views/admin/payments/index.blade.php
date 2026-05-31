@@ -1,6 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
+@php
+    $paymentStatusLabels = [
+        'pending' => 'در انتظار تایید',
+        'approved' => 'تایید شده',
+        'rejected' => 'رد شده',
+    ];
+@endphp
 <h4 class="mb-3">پرداخت‌های مشتریان</h4>
 
 <div class="card p-3">
@@ -23,7 +30,7 @@
                     <td>{{ $payment->project?->title ?? '-' }}</td>
                     <td>{{ number_format($payment->amount) }} تومان</td>
                     <td>{{ $payment->payment_month }}</td>
-                    <td>{{ $payment->status }}</td>
+                    <td>{{ $paymentStatusLabels[$payment->status] ?? $payment->status }}</td>
                     <td>
                         @if($payment->receipt_path)
                             <a href="{{ asset('storage/'.$payment->receipt_path) }}" target="_blank">
