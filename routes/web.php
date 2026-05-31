@@ -35,10 +35,15 @@ Route::middleware('auth')->group(function () {
 
     Route::middleware('role:admin')->prefix('admin')->name('admin.')->group(function () {
         Route::resource('customers', CustomerController::class);
-        Route::resource('projects', ProjectController::class);
         Route::resource('users', UserController::class);
+    });
+
+    Route::middleware('role:admin,website_manager')->prefix('admin')->name('admin.')->group(function () {
+        Route::resource('projects', ProjectController::class);
 
         Route::get('/payments', [AdminPaymentController::class, 'index'])->name('payments.index');
+        Route::get('/payments/create', [AdminPaymentController::class, 'create'])->name('payments.create');
+        Route::post('/payments', [AdminPaymentController::class, 'store'])->name('payments.store');
         Route::post('/payments/{payment}/approve', [AdminPaymentController::class, 'approve'])->name('payments.approve');
         Route::post('/payments/{payment}/reject', [AdminPaymentController::class, 'reject'])->name('payments.reject');
 

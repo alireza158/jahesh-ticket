@@ -20,7 +20,10 @@
         <h3 class="fw-bold mb-2">پرداخت‌های مشتریان</h3>
         <p class="mb-0">بررسی رسیدها، تایید یا رد پرداخت‌های ماهانه مشتریان</p>
     </div>
-    <a href="{{ route('admin.payments.debtors') }}" class="btn btn-light text-primary">📌 گزارش بدهکارها</a>
+    <div class="d-flex gap-2">
+        <a href="{{ route('admin.payments.create') }}" class="btn btn-primary">ثبت پرداخت پروژه</a>
+        <a href="{{ route('admin.payments.debtors') }}" class="btn btn-outline-secondary">گزارش بدهکارها</a>
+    </div>
 </div>
 
 <div class="card">

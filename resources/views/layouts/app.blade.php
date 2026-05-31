@@ -10,20 +10,18 @@
 
     <style>
         :root {
-            --jahesh-primary: #2563eb;
-            --jahesh-primary-dark: #1d4ed8;
-            --jahesh-secondary: #06b6d4;
+            --jahesh-primary: #1f3a5f;
+            --jahesh-primary-dark: #14263f;
+            --jahesh-secondary: #64748b;
             --jahesh-surface: #ffffff;
             --jahesh-muted: #64748b;
-            --jahesh-bg: #eef4ff;
-            --jahesh-dark: #0f172a;
+            --jahesh-bg: #f6f8fb;
+            --jahesh-dark: #111827;
         }
 
         body {
             min-height: 100vh;
-            background:
-                radial-gradient(circle at top right, rgba(37, 99, 235, .16), transparent 32rem),
-                linear-gradient(135deg, #f8fbff 0%, var(--jahesh-bg) 100%);
+            background: var(--jahesh-bg);
             color: #1e293b;
             font-family: Tahoma, Arial, sans-serif;
         }
@@ -34,8 +32,9 @@
 
         .sidebar {
             min-height: 100vh;
-            background: linear-gradient(180deg, #111827 0%, #172554 100%);
-            box-shadow: -12px 0 32px rgba(15, 23, 42, .18);
+            background: #ffffff;
+            border-left: 1px solid #e5e7eb;
+            box-shadow: none;
             position: sticky;
             top: 0;
         }
@@ -47,14 +46,14 @@
             align-items: center;
             justify-content: center;
             border-radius: 16px;
-            background: linear-gradient(135deg, var(--jahesh-primary), var(--jahesh-secondary));
-            box-shadow: 0 12px 28px rgba(37, 99, 235, .35);
+            background: var(--jahesh-primary);
+            box-shadow: none;
             color: #fff;
             font-weight: 800;
         }
 
         .sidebar .nav-link {
-            color: #dbeafe;
+            color: #475569;
             border: 1px solid transparent;
             border-radius: 14px;
             padding: 11px 14px;
@@ -64,9 +63,9 @@
 
         .sidebar .nav-link:hover,
         .sidebar .nav-link.active {
-            color: #fff;
-            background: rgba(255, 255, 255, .12);
-            border-color: rgba(255, 255, 255, .12);
+            color: var(--jahesh-primary);
+            background: #f1f5f9;
+            border-color: #e2e8f0;
             transform: translateX(-2px);
         }
 
@@ -75,24 +74,25 @@
         }
 
         .page-header {
-            border-radius: 28px;
+            border-radius: 20px;
             padding: 24px;
-            background: linear-gradient(135deg, rgba(37, 99, 235, .95), rgba(6, 182, 212, .9));
-            color: #fff;
-            box-shadow: 0 18px 45px rgba(37, 99, 235, .22);
+            background: #ffffff;
+            color: var(--jahesh-dark);
+            border: 1px solid #e5e7eb;
+            box-shadow: none;
             margin-bottom: 24px;
         }
 
         .page-header .text-muted,
         .page-header p {
-            color: rgba(255, 255, 255, .82) !important;
+            color: var(--jahesh-muted) !important;
         }
 
         .card {
-            border: 1px solid rgba(148, 163, 184, .18);
-            border-radius: 22px;
-            box-shadow: 0 14px 36px rgba(15, 23, 42, .08);
-            background: rgba(255, 255, 255, .96);
+            border: 1px solid #e5e7eb;
+            border-radius: 18px;
+            box-shadow: none;
+            background: #ffffff;
         }
 
         .card-header {
@@ -150,9 +150,9 @@
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, var(--jahesh-primary), var(--jahesh-primary-dark));
-            border: none;
-            box-shadow: 0 10px 22px rgba(37, 99, 235, .22);
+            background: var(--jahesh-primary);
+            border-color: var(--jahesh-primary);
+            box-shadow: none;
         }
 
         .btn-primary:hover {
@@ -225,7 +225,7 @@
         }
 
         .login-hero {
-            background: linear-gradient(135deg, rgba(37, 99, 235, .95), rgba(6, 182, 212, .92));
+            background: linear-gradient(135deg, #1f3a5f, #334155);
             border-radius: 30px;
             color: #fff;
             min-height: 520px;
@@ -264,34 +264,36 @@
                 <div class="d-flex align-items-center gap-3 mb-4">
                     <span class="brand-mark">ج</span>
                     <div>
-                        <h5 class="text-white mb-0">جهش</h5>
-                        <small class="text-white-50">پنل پشتیبانی</small>
+                        <h5 class="text-dark mb-0">جهش</h5>
+                        <small class="text-muted">پنل پشتیبانی</small>
                     </div>
                 </div>
 
                 <nav class="nav flex-column">
-                    <a class="nav-link" href="{{ route('dashboard') }}">📊 داشبورد</a>
-                    <a class="nav-link" href="{{ route('tickets.index') }}">🎫 تیکت‌ها</a>
+                    <a class="nav-link" href="{{ route('dashboard') }}">داشبورد</a>
+                    <a class="nav-link" href="{{ route('tickets.index') }}">تیکت‌ها</a>
 
                     @if(auth()->user()->role === 'customer')
-                        <a class="nav-link" href="{{ route('tickets.create') }}">➕ ثبت تیکت</a>
-                        <a class="nav-link" href="{{ route('customer.payments.index') }}">💳 پرداخت‌های من</a>
+                        <a class="nav-link" href="{{ route('tickets.create') }}">ثبت تیکت</a>
+                        <a class="nav-link" href="{{ route('customer.payments.index') }}">پرداخت‌های من</a>
                     @endif
 
-                    @if(auth()->user()->role === 'admin')
-                        <hr class="text-white-50 my-3">
-                        <a class="nav-link" href="{{ route('admin.customers.index') }}">👥 مشتریان</a>
-                        <a class="nav-link" href="{{ route('admin.projects.index') }}">📁 پروژه‌ها</a>
-                        <a class="nav-link" href="{{ route('admin.users.index') }}">🧑‍💼 کاربران / پرسنل</a>
-                        <a class="nav-link" href="{{ route('admin.payments.index') }}">💰 پرداخت‌ها</a>
-                        <a class="nav-link" href="{{ route('admin.payments.debtors') }}">📌 گزارش بدهکارها</a>
+                    @if(in_array(auth()->user()->role, ['admin', 'website_manager']))
+                        <hr class="text-muted my-3">
+                        @if(auth()->user()->role === 'admin')
+                            <a class="nav-link" href="{{ route('admin.customers.index') }}">مشتریان</a>
+                            <a class="nav-link" href="{{ route('admin.users.index') }}">کاربران / پرسنل</a>
+                        @endif
+                        <a class="nav-link" href="{{ route('admin.projects.index') }}">پروژه‌ها</a>
+                        <a class="nav-link" href="{{ route('admin.payments.index') }}">پرداخت‌ها</a>
+                        <a class="nav-link" href="{{ route('admin.payments.debtors') }}">گزارش بدهکارها</a>
                     @endif
                 </nav>
 
-                <div class="card bg-white bg-opacity-10 border-0 text-white mt-4 p-3">
-                    <div class="small text-white-50">کاربر وارد شده</div>
+                <div class="card bg-light border-0 text-dark mt-4 p-3">
+                    <div class="small text-muted">کاربر وارد شده</div>
                     <div class="fw-bold">{{ auth()->user()->name }}</div>
-                    <div class="small text-white-50">{{ auth()->user()->phone }}</div>
+                    <div class="small text-muted">{{ auth()->user()->phone }}</div>
                 </div>
 
                 <form action="{{ route('logout') }}" method="POST" class="mt-3">

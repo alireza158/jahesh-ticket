@@ -5,7 +5,7 @@
 @section('content')
 <div class="page-header">
     <h3 class="fw-bold mb-2">افزودن پروژه</h3>
-    <p class="mb-0">برای هر مشتری پروژه فعال تعریف کنید تا تیکت و پرداخت‌ها به آن متصل شوند.</p>
+    <p class="mb-0">مشخصات پروژه، هزینه اولیه، هزینه ماهانه و مانده‌های مالی را ثبت کنید.</p>
 </div>
 
 <div class="card">
@@ -30,9 +30,21 @@
                     <label class="form-label fw-semibold">توضیحات</label>
                     <textarea name="description" class="form-control" rows="4">{{ old('description') }}</textarea>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-6 col-xl-3">
+                    <label class="form-label fw-semibold">هزینه اولیه</label>
+                    <input name="initial_fee" type="number" class="form-control" value="{{ old('initial_fee', 0) }}">
+                </div>
+                <div class="col-md-6 col-xl-3">
                     <label class="form-label fw-semibold">هزینه ماهانه</label>
                     <input name="monthly_fee" type="number" class="form-control" value="{{ old('monthly_fee', 0) }}">
+                </div>
+                <div class="col-md-6 col-xl-3">
+                    <label class="form-label fw-semibold">بدهکاری دستی</label>
+                    <input name="debt_adjustment" type="number" class="form-control" value="{{ old('debt_adjustment', 0) }}">
+                </div>
+                <div class="col-md-6 col-xl-3">
+                    <label class="form-label fw-semibold">بستانکاری دستی</label>
+                    <input name="credit_adjustment" type="number" class="form-control" value="{{ old('credit_adjustment', 0) }}">
                 </div>
                 <div class="col-md-6">
                     <label class="form-label fw-semibold">وضعیت</label>
@@ -41,6 +53,10 @@
                         <option value="inactive" @selected(old('status') === 'inactive')>غیرفعال</option>
                         <option value="completed" @selected(old('status') === 'completed')>تمام‌شده</option>
                     </select>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-semibold">یادداشت مالی</label>
+                    <input name="finance_note" class="form-control" value="{{ old('finance_note') }}" placeholder="توضیح بدهکاری/بستانکاری">
                 </div>
             </div>
             <div class="d-flex gap-2 mt-4">

@@ -55,8 +55,8 @@ class DemoDataSeeder extends Seeder
                 'phone' => '09130000001',
                 'address' => 'تهران، خیابان ولیعصر، پلاک ۱۰',
                 'projects' => [
-                    ['title' => 'فروشگاه اینترنتی آرمان', 'description' => 'پشتیبانی و توسعه فروشگاه آنلاین', 'monthly_fee' => 12000000],
-                    ['title' => 'باشگاه مشتریان آرمان', 'description' => 'سامانه امتیازدهی و پیامک مشتریان', 'monthly_fee' => 8500000],
+                    ['title' => 'فروشگاه اینترنتی آرمان', 'description' => 'پشتیبانی و توسعه فروشگاه آنلاین', 'initial_fee' => 45000000, 'monthly_fee' => 12000000, 'debt_adjustment' => 3000000, 'credit_adjustment' => 0, 'finance_note' => 'مانده بابت توسعه ماژول گزارش'],
+                    ['title' => 'باشگاه مشتریان آرمان', 'description' => 'سامانه امتیازدهی و پیامک مشتریان', 'initial_fee' => 28000000, 'monthly_fee' => 8500000, 'debt_adjustment' => 0, 'credit_adjustment' => 1500000, 'finance_note' => 'بستانکاری بابت پرداخت اضافه'],
                 ],
             ],
             [
@@ -65,7 +65,7 @@ class DemoDataSeeder extends Seeder
                 'phone' => '09130000002',
                 'address' => 'اصفهان، خیابان چهارباغ، ساختمان مهر',
                 'projects' => [
-                    ['title' => 'نوبت‌دهی آنلاین مهر', 'description' => 'سامانه رزرو نوبت و پرونده بیماران', 'monthly_fee' => 9500000],
+                    ['title' => 'نوبت‌دهی آنلاین مهر', 'description' => 'سامانه رزرو نوبت و پرونده بیماران', 'initial_fee' => 35000000, 'monthly_fee' => 9500000, 'debt_adjustment' => 0, 'credit_adjustment' => 0, 'finance_note' => null],
                 ],
             ],
             [
@@ -74,8 +74,8 @@ class DemoDataSeeder extends Seeder
                 'phone' => '09130000003',
                 'address' => 'شیراز، بلوار فرهنگ شهر',
                 'projects' => [
-                    ['title' => 'LMS دانا', 'description' => 'سامانه آموزش آنلاین و آزمون', 'monthly_fee' => 15000000],
-                    ['title' => 'وبسایت معرفی دوره‌ها', 'description' => 'لندینگ و ثبت‌نام دوره‌ها', 'monthly_fee' => 6000000],
+                    ['title' => 'LMS دانا', 'description' => 'سامانه آموزش آنلاین و آزمون', 'initial_fee' => 52000000, 'monthly_fee' => 15000000, 'debt_adjustment' => 5000000, 'credit_adjustment' => 0, 'finance_note' => 'بدهی بابت افزایش فضای ذخیره‌سازی'],
+                    ['title' => 'وبسایت معرفی دوره‌ها', 'description' => 'لندینگ و ثبت‌نام دوره‌ها', 'initial_fee' => 18000000, 'monthly_fee' => 6000000, 'debt_adjustment' => 0, 'credit_adjustment' => 0, 'finance_note' => null],
                 ],
             ],
         ])->map(function (array $item) {
@@ -100,7 +100,14 @@ class DemoDataSeeder extends Seeder
             foreach ($projectItems as $project) {
                 Project::updateOrCreate(
                     ['customer_id' => $customer->id, 'title' => $project['title']],
-                    $project + ['status' => 'active']
+                    array_merge([
+                        'initial_fee' => 0,
+                        'monthly_fee' => 0,
+                        'debt_adjustment' => 0,
+                        'credit_adjustment' => 0,
+                        'finance_note' => null,
+                        'status' => 'active',
+                    ], $project)
                 );
             }
 

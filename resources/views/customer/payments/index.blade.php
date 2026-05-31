@@ -22,6 +22,48 @@
     </div>
     <a href="{{ route('customer.payments.create') }}" class="btn btn-light text-primary">➕ ثبت پرداخت</a>
 </div>
+<div class="row g-3 mb-4">
+    <div class="col-md-6">
+        <div class="card p-4 h-100">
+            <div class="text-muted mb-2">مانده بدهی کل پروژه‌ها</div>
+            <h3 class="fw-bold text-danger mb-0">{{ number_format($remainingDebt) }} تومان</h3>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card p-4 h-100">
+            <div class="text-muted mb-2">بستانکاری کل</div>
+            <h3 class="fw-bold text-success mb-0">{{ number_format($creditBalance) }} تومان</h3>
+        </div>
+    </div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header"><h5 class="mb-0 fw-bold">مانده هر پروژه</h5></div>
+    <div class="table-responsive">
+        <table class="table table-hover align-middle">
+            <thead>
+                <tr>
+                    <th>پروژه</th>
+                    <th>هزینه اولیه</th>
+                    <th>هزینه ماهانه</th>
+                    <th>مانده بدهی</th>
+                    <th>بستانکاری</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($projects as $project)
+                    <tr>
+                        <td class="fw-semibold">{{ $project->title }}</td>
+                        <td>{{ number_format($project->initial_fee) }} تومان</td>
+                        <td>{{ number_format($project->monthly_fee) }} تومان</td>
+                        <td><span class="badge bg-danger-subtle text-danger">{{ number_format($project->remainingDebt()) }} تومان</span></td>
+                        <td><span class="badge bg-success-subtle text-success">{{ number_format($project->creditBalance()) }} تومان</span></td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+</div>
 
 <div class="card">
     <div class="card-header"><h5 class="mb-0 fw-bold">سوابق پرداخت</h5></div>

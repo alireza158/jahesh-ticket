@@ -6,9 +6,9 @@
 <div class="page-header d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3">
     <div>
         <h3 class="fw-bold mb-2">پروژه‌ها</h3>
-        <p class="mb-0">تعریف پروژه برای مشتریان و مدیریت هزینه ماهانه هر پروژه</p>
+        <p class="mb-0">مدیریت مشخصات، هزینه‌ها، بدهکاری و پرداخت‌های پروژه‌ها</p>
     </div>
-    <a href="{{ route('admin.projects.create') }}" class="btn btn-light text-primary">➕ افزودن پروژه</a>
+    <a href="{{ route('admin.projects.create') }}" class="btn btn-primary">افزودن پروژه</a>
 </div>
 
 <div class="card">
@@ -22,7 +22,10 @@
                 <tr>
                     <th>عنوان</th>
                     <th>مشتری</th>
+                    <th>هزینه اولیه</th>
                     <th>هزینه ماهانه</th>
+                    <th>مانده بدهی</th>
+                    <th>بستانکاری</th>
                     <th>وضعیت</th>
                     <th class="text-end">عملیات</th>
                 </tr>
@@ -32,22 +35,29 @@
                     <tr>
                         <td class="fw-semibold">{{ $project->title }}</td>
                         <td>{{ $project->customer?->name ?? '-' }}</td>
+                        <td>{{ number_format($project->initial_fee) }} تومان</td>
                         <td>{{ number_format($project->monthly_fee) }} تومان</td>
+                        <td><span class="badge bg-danger-subtle text-danger">{{ number_format($project->remainingDebt()) }} تومان</span></td>
+                        <td><span class="badge bg-success-subtle text-success">{{ number_format($project->creditBalance()) }} تومان</span></td>
                         <td>
                             @php($projectStatus = ['active' => 'فعال', 'inactive' => 'غیرفعال', 'completed' => 'تمام‌شده'])
-                            <span class="badge bg-info-subtle text-info">{{ $projectStatus[$project->status] ?? $project->status }}</span>
+                            <span class="badge bg-secondary-subtle text-secondary">{{ $projectStatus[$project->status] ?? $project->status }}</span>
                         </td>
                         <td class="text-end">
-                            <a href="{{ route('admin.projects.edit', $project) }}" class="btn btn-sm btn-outline-warning">ویرایش</a>
-                            <form action="{{ route('admin.projects.destroy', $project) }}" method="POST" class="d-inline">
-                                @csrf
-                                @method('DELETE')
-                                <button class="btn btn-sm btn-outline-danger" onclick="return confirm('حذف شود؟')">حذف</button>
-                            </form>
+                            <a href="{{ route('admin.projects.show', $project) }}" class="btn btn-sm btn-outline-primary">جزئیات</a>
+                            <a href="{{ route('admin.payments.create', ['project_id' => $project->id]) }}" class="btn btn-sm btn-outline-success">ثبت پرداخت</a>
+                            <a href="{{ route('admin.projects.edit', $project) }}" class="btn btn-sm btn-outline-secondary">ویرایش</a>
+                            @if(auth()->user()->role === 'admin')
+                                <form action="{{ route('admin.projects.destroy', $project) }}" method="POST" class="d-inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="btn btn-sm btn-outline-danger" onclick="return confirm('حذف شود؟')">حذف</button>
+                                </form>
+                            @endif
                         </td>
                     </tr>
                 @empty
-                    <tr><td colspan="5"><div class="empty-state"><div class="empty-state-icon">📁</div><div>هنوز پروژه‌ای ثبت نشده است.</div></div></td></tr>
+                    <tr><td colspan="8"><div class="empty-state"><div class="empty-state-icon">📁</div><div>هنوز پروژه‌ای ثبت نشده است.</div></div></td></tr>
                 @endforelse
             </tbody>
         </table>

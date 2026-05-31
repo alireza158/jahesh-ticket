@@ -13,12 +13,21 @@ class PaymentController extends Controller
 {
     public function index()
     {
+        $customerId = auth()->user()->customer_id;
+
+        $projects = Project::with('payments')
+            ->where('customer_id', $customerId)
+            ->get();
+
+        $remainingDebt = $projects->sum(fn (Project $project) => $project->remainingDebt());
+        $creditBalance = $projects->sum(fn (Project $project) => $project->creditBalance());
+
         $payments = Payment::with('project')
-            ->where('customer_id', auth()->user()->customer_id)
+            ->where('customer_id', $customerId)
             ->latest()
             ->paginate(15);
 
-        return view('customer.payments.index', compact('payments'));
+        return view('customer.payments.index', compact('payments', 'projects', 'remainingDebt', 'creditBalance'));
     }
 
     public function create()

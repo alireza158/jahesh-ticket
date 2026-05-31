@@ -5,7 +5,7 @@
 @section('content')
 <div class="page-header">
     <h3 class="fw-bold mb-2">ویرایش پروژه</h3>
-    <p class="mb-0">اطلاعات پروژه {{ $project->title }} را بروزرسانی کنید.</p>
+    <p class="mb-0">مشخصات و وضعیت مالی پروژه {{ $project->title }} را بروزرسانی کنید.</p>
 </div>
 
 <div class="card">
@@ -31,9 +31,21 @@
                     <label class="form-label fw-semibold">توضیحات</label>
                     <textarea name="description" class="form-control" rows="4">{{ old('description', $project->description) }}</textarea>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-6 col-xl-3">
+                    <label class="form-label fw-semibold">هزینه اولیه</label>
+                    <input name="initial_fee" type="number" class="form-control" value="{{ old('initial_fee', $project->initial_fee) }}">
+                </div>
+                <div class="col-md-6 col-xl-3">
                     <label class="form-label fw-semibold">هزینه ماهانه</label>
                     <input name="monthly_fee" type="number" class="form-control" value="{{ old('monthly_fee', $project->monthly_fee) }}">
+                </div>
+                <div class="col-md-6 col-xl-3">
+                    <label class="form-label fw-semibold">بدهکاری دستی</label>
+                    <input name="debt_adjustment" type="number" class="form-control" value="{{ old('debt_adjustment', $project->debt_adjustment) }}">
+                </div>
+                <div class="col-md-6 col-xl-3">
+                    <label class="form-label fw-semibold">بستانکاری دستی</label>
+                    <input name="credit_adjustment" type="number" class="form-control" value="{{ old('credit_adjustment', $project->credit_adjustment) }}">
                 </div>
                 <div class="col-md-6">
                     <label class="form-label fw-semibold">وضعیت</label>
@@ -42,6 +54,10 @@
                         <option value="inactive" @selected(old('status', $project->status) === 'inactive')>غیرفعال</option>
                         <option value="completed" @selected(old('status', $project->status) === 'completed')>تمام‌شده</option>
                     </select>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-semibold">یادداشت مالی</label>
+                    <input name="finance_note" class="form-control" value="{{ old('finance_note', $project->finance_note) }}" placeholder="توضیح بدهکاری/بستانکاری">
                 </div>
             </div>
             <div class="d-flex gap-2 mt-4">
