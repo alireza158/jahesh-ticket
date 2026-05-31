@@ -13,9 +13,10 @@ use Illuminate\Http\Request;
 
 class TicketController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $user = auth()->user();
+        $search = $request->string('q')->toString();
 
         $query = Ticket::with(['customer', 'project', 'assignedStaff'])->latest();
 
@@ -27,9 +28,29 @@ class TicketController extends Controller
             $query->where('assigned_to', $user->id);
         }
 
-        $tickets = $query->paginate(15);
+        if ($search) {
+            $query->where(function ($query) use ($search) {
+                $query->where('title', 'like', "%{$search}%")
+                    ->orWhere('description', 'like', "%{$search}%")
+                    ->orWhere('phone', 'like', "%{$search}%")
+                    ->orWhereHas('customer', function ($query) use ($search) {
+                        $query->where('name', 'like', "%{$search}%")
+                            ->orWhere('company_name', 'like', "%{$search}%")
+                            ->orWhere('phone', 'like', "%{$search}%");
+                    })
+                    ->orWhereHas('project', function ($query) use ($search) {
+                        $query->where('title', 'like', "%{$search}%");
+                    })
+                    ->orWhereHas('assignedStaff', function ($query) use ($search) {
+                        $query->where('name', 'like', "%{$search}%")
+                            ->orWhere('phone', 'like', "%{$search}%");
+                    });
+            });
+        }
 
-        return view('tickets.index', compact('tickets'));
+        $tickets = $query->paginate(15)->withQueryString();
+
+        return view('tickets.index', compact('tickets', 'search'));
     }
 
     public function create()
@@ -166,10 +187,21 @@ class TicketController extends Controller
             ->where('role', 'staff')
             ->firstOrFail();
 
+        $oldStatus = $ticket->status;
+
         $ticket->update([
             'assigned_to' => $staff->id,
             'status' => 'in_progress',
         ]);
+
+        if ($oldStatus !== 'in_progress') {
+            TicketStatusLog::create([
+                'ticket_id' => $ticket->id,
+                'changed_by' => $user->id,
+                'old_status' => $oldStatus,
+                'new_status' => 'in_progress',
+            ]);
+        }
 
         TicketAssignment::create([
             'ticket_id' => $ticket->id,
@@ -209,6 +241,14 @@ class TicketController extends Controller
             'new_status' => $data['status'],
         ]);
 
+        $statusLabels = [
+            'open' => 'باز',
+            'in_progress' => 'در حال بررسی',
+            'waiting_customer' => 'در انتظار مشتری',
+            'answered' => 'پاسخ داده شده',
+            'closed' => 'بسته شده',
+        ];
+
         if ($request->boolean('send_sms')) {
             $customerUser = User::where('customer_id', $ticket->customer_id)
                 ->where('role', 'customer')
@@ -217,7 +257,7 @@ class TicketController extends Controller
             if ($customerUser && $customerUser->phone) {
                 app(SmsService::class)->send(
                     $customerUser->phone,
-                    "وضعیت تیکت {$ticket->title} به {$data['status']} تغییر کرد."
+                    "وضعیت تیکت {$ticket->title} به ".($statusLabels[$data['status']] ?? $data['status'])." تغییر کرد."
                 );
             }
         }

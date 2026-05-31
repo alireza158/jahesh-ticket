@@ -18,8 +18,7 @@ return new class extends Migration
     $table->foreignId('customer_id')->nullable()->constrained()->nullOnDelete();
 
     $table->string('name');
-    $table->string('email')->unique();
-    $table->string('phone')->nullable();
+    $table->string('phone')->unique();
 
     $table->enum('role', [
         'admin',
@@ -32,12 +31,6 @@ return new class extends Migration
     $table->rememberToken();
     $table->timestamps();
 });
-        Schema::create('password_reset_tokens', function (Blueprint $table) {
-            $table->string('email')->primary();
-            $table->string('token');
-            $table->timestamp('created_at')->nullable();
-        });
-
         Schema::create('sessions', function (Blueprint $table) {
             $table->string('id')->primary();
             $table->foreignId('user_id')->nullable()->index();

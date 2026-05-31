@@ -15,7 +15,7 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $data = $request->validate([
-            'email' => ['required', 'email'],
+            'phone' => ['required', 'string', 'max:30'],
             'password' => ['required'],
         ]);
 
@@ -25,8 +25,8 @@ class AuthController extends Controller
         }
 
         return back()->withErrors([
-            'email' => 'اطلاعات ورود اشتباه است.'
-        ])->onlyInput('email');
+            'phone' => 'شماره تماس یا رمز عبور اشتباه است.'
+        ])->onlyInput('phone');
     }
 
     public function logout(Request $request)

@@ -11,10 +11,23 @@ use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::with('customer')->latest()->paginate(15);
-        return view('admin.users.index', compact('users'));
+        $search = $request->string('q')->toString();
+
+        $users = User::with('customer')
+            ->when($search, function ($query) use ($search) {
+                $query->where(function ($query) use ($search) {
+                    $query->where('name', 'like', "%{$search}%")
+                        ->orWhere('phone', 'like', "%{$search}%")
+                        ->orWhere('role', 'like', "%{$search}%");
+                });
+            })
+            ->latest()
+            ->paginate(15)
+            ->withQueryString();
+
+        return view('admin.users.index', compact('users', 'search'));
     }
 
     public function create()
@@ -28,8 +41,7 @@ class UserController extends Controller
         $data = $request->validate([
             'customer_id' => ['nullable', 'exists:customers,id'],
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', 'unique:users,email'],
-            'phone' => ['nullable', 'string', 'max:30'],
+            'phone' => ['required', 'string', 'max:30', 'unique:users,phone'],
             'role' => ['required', Rule::in(['admin', 'website_manager', 'staff', 'customer'])],
             'password' => ['required', 'min:8'],
         ]);
@@ -63,8 +75,7 @@ class UserController extends Controller
         $data = $request->validate([
             'customer_id' => ['nullable', 'exists:customers,id'],
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', Rule::unique('users')->ignore($user->id)],
-            'phone' => ['nullable', 'string', 'max:30'],
+            'phone' => ['required', 'string', 'max:30', Rule::unique('users', 'phone')->ignore($user->id)],
             'role' => ['required', Rule::in(['admin', 'website_manager', 'staff', 'customer'])],
             'password' => ['nullable', 'min:8'],
         ]);

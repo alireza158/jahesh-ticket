@@ -10,7 +10,11 @@ class Project extends Model
         'customer_id',
         'title',
         'description',
+        'initial_fee',
         'monthly_fee',
+        'debt_adjustment',
+        'credit_adjustment',
+        'finance_note',
         'status',
     ];
 
@@ -27,5 +31,37 @@ class Project extends Model
     public function payments()
     {
         return $this->hasMany(Payment::class);
+    }
+
+    public function approvedPayments()
+    {
+        return $this->hasMany(Payment::class)->where('status', 'approved');
+    }
+
+    public function billableAmount(): float
+    {
+        return (float) $this->initial_fee
+            + (float) $this->monthly_fee
+            + (float) $this->debt_adjustment
+            - (float) $this->credit_adjustment;
+    }
+
+    public function approvedPaymentsAmount(): float
+    {
+        if ($this->relationLoaded('payments')) {
+            return (float) $this->payments->where('status', 'approved')->sum('amount');
+        }
+
+        return (float) $this->approvedPayments()->sum('amount');
+    }
+
+    public function remainingDebt(): float
+    {
+        return max($this->billableAmount() - $this->approvedPaymentsAmount(), 0);
+    }
+
+    public function creditBalance(): float
+    {
+        return max($this->approvedPaymentsAmount() - $this->billableAmount(), 0);
     }
 }
