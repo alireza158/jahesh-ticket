@@ -3,17 +3,39 @@
 @section('title', 'تیکت‌ها')
 
 @section('content')
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <h4>تیکت‌ها</h4>
-
+@php
+    $statusLabels = [
+        'open' => 'باز',
+        'in_progress' => 'در حال بررسی',
+        'waiting_customer' => 'در انتظار مشتری',
+        'answered' => 'پاسخ داده شده',
+        'closed' => 'بسته شده',
+    ];
+    $statusClasses = [
+        'open' => 'bg-primary-subtle text-primary',
+        'in_progress' => 'bg-info-subtle text-info',
+        'waiting_customer' => 'bg-warning-subtle text-warning',
+        'answered' => 'bg-success-subtle text-success',
+        'closed' => 'bg-secondary-subtle text-secondary',
+    ];
+@endphp
+<div class="page-header d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3">
+    <div>
+        <h3 class="fw-bold mb-2">تیکت‌ها</h3>
+        <p class="mb-0">مشاهده، پیگیری و مدیریت درخواست‌های پشتیبانی</p>
+    </div>
     @if(auth()->user()->role === 'customer')
-        <a href="{{ route('tickets.create') }}" class="btn btn-primary">ثبت تیکت جدید</a>
+        <a href="{{ route('tickets.create') }}" class="btn btn-light text-primary">➕ ثبت تیکت جدید</a>
     @endif
 </div>
 
-<div class="card p-3">
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="mb-0 fw-bold">لیست تیکت‌ها</h5>
+        <span class="badge bg-primary-subtle text-primary">{{ $tickets->total() }} تیکت</span>
+    </div>
     <div class="table-responsive">
-        <table class="table align-middle">
+        <table class="table table-hover align-middle">
             <thead>
                 <tr>
                     <th>عنوان</th>
@@ -23,13 +45,13 @@
                     <th>وضعیت</th>
                     <th>ارجاع به</th>
                     <th>تاریخ</th>
-                    <th>عملیات</th>
+                    <th class="text-end">عملیات</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach($tickets as $ticket)
+                @forelse($tickets as $ticket)
                     <tr>
-                        <td>{{ $ticket->title }}</td>
+                        <td class="fw-semibold">{{ $ticket->title }}</td>
                         <td>{{ $ticket->customer->name }}</td>
                         <td>{{ $ticket->project?->title ?? '-' }}</td>
                         <td>
@@ -41,20 +63,19 @@
                                 <span class="badge badge-priority-low">کم</span>
                             @endif
                         </td>
-                        <td>{{ $ticket->status }}</td>
+                        <td><span class="badge {{ $statusClasses[$ticket->status] ?? 'bg-secondary-subtle text-secondary' }}">{{ $statusLabels[$ticket->status] ?? $ticket->status }}</span></td>
                         <td>{{ $ticket->assignedStaff?->name ?? '-' }}</td>
-                        <td>{{ $ticket->created_at->format('Y/m/d') }}</td>
-                        <td>
-                            <a href="{{ route('tickets.show', $ticket) }}" class="btn btn-sm btn-outline-primary">
-                                مشاهده
-                            </a>
+                        <td>{{ \App\Support\JalaliDate::format($ticket->created_at, 'Y/m/d') }}</td>
+                        <td class="text-end">
+                            <a href="{{ route('tickets.show', $ticket) }}" class="btn btn-sm btn-outline-primary">مشاهده</a>
                         </td>
                     </tr>
-                @endforeach
+                @empty
+                    <tr><td colspan="8"><div class="empty-state"><div class="empty-state-icon">🎫</div><div>هنوز تیکتی ثبت نشده است.</div></div></td></tr>
+                @endforelse
             </tbody>
         </table>
     </div>
-
-    {{ $tickets->links() }}
+    <div class="card-footer bg-transparent border-0 pt-0 px-4 pb-4">{{ $tickets->links() }}</div>
 </div>
 @endsection

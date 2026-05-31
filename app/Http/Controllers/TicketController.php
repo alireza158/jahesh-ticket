@@ -166,10 +166,21 @@ class TicketController extends Controller
             ->where('role', 'staff')
             ->firstOrFail();
 
+        $oldStatus = $ticket->status;
+
         $ticket->update([
             'assigned_to' => $staff->id,
             'status' => 'in_progress',
         ]);
+
+        if ($oldStatus !== 'in_progress') {
+            TicketStatusLog::create([
+                'ticket_id' => $ticket->id,
+                'changed_by' => $user->id,
+                'old_status' => $oldStatus,
+                'new_status' => 'in_progress',
+            ]);
+        }
 
         TicketAssignment::create([
             'ticket_id' => $ticket->id,
@@ -209,6 +220,14 @@ class TicketController extends Controller
             'new_status' => $data['status'],
         ]);
 
+        $statusLabels = [
+            'open' => 'باز',
+            'in_progress' => 'در حال بررسی',
+            'waiting_customer' => 'در انتظار مشتری',
+            'answered' => 'پاسخ داده شده',
+            'closed' => 'بسته شده',
+        ];
+
         if ($request->boolean('send_sms')) {
             $customerUser = User::where('customer_id', $ticket->customer_id)
                 ->where('role', 'customer')
@@ -217,7 +236,7 @@ class TicketController extends Controller
             if ($customerUser && $customerUser->phone) {
                 app(SmsService::class)->send(
                     $customerUser->phone,
-                    "وضعیت تیکت {$ticket->title} به {$data['status']} تغییر کرد."
+                    "وضعیت تیکت {$ticket->title} به ".($statusLabels[$data['status']] ?? $data['status'])." تغییر کرد."
                 );
             }
         }

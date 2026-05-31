@@ -1,46 +1,53 @@
 @extends('layouts.app')
 
+@section('title', 'افزودن پروژه')
+
 @section('content')
-<h4 class="mb-3">افزودن پروژه</h4>
+<div class="page-header">
+    <h3 class="fw-bold mb-2">افزودن پروژه</h3>
+    <p class="mb-0">برای هر مشتری پروژه فعال تعریف کنید تا تیکت و پرداخت‌ها به آن متصل شوند.</p>
+</div>
 
-<div class="card p-4">
-    <form method="POST" action="{{ route('admin.projects.store') }}">
-        @csrf
-
-        <div class="mb-3">
-            <label class="form-label">مشتری</label>
-            <select name="customer_id" class="form-select" required>
-                @foreach($customers as $customer)
-                    <option value="{{ $customer->id }}">{{ $customer->name }}</option>
-                @endforeach
-            </select>
-        </div>
-
-        <div class="mb-3">
-            <label class="form-label">عنوان پروژه</label>
-            <input name="title" class="form-control" required>
-        </div>
-
-        <div class="mb-3">
-            <label class="form-label">توضیحات</label>
-            <textarea name="description" class="form-control"></textarea>
-        </div>
-
-        <div class="mb-3">
-            <label class="form-label">هزینه ماهانه</label>
-            <input name="monthly_fee" type="number" class="form-control" value="0">
-        </div>
-
-        <div class="mb-3">
-            <label class="form-label">وضعیت</label>
-            <select name="status" class="form-select">
-                <option value="active">فعال</option>
-                <option value="inactive">غیرفعال</option>
-                <option value="completed">تمام‌شده</option>
-            </select>
-        </div>
-
-        <button class="btn btn-primary">ثبت پروژه</button>
-    </form>
+<div class="card">
+    <div class="card-header"><h5 class="mb-0 fw-bold">فرم ثبت پروژه</h5></div>
+    <div class="card-body p-4">
+        <form method="POST" action="{{ route('admin.projects.store') }}">
+            @csrf
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label fw-semibold">مشتری</label>
+                    <select name="customer_id" class="form-select" required>
+                        @foreach($customers as $customer)
+                            <option value="{{ $customer->id }}" @selected(old('customer_id') == $customer->id)>{{ $customer->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-semibold">عنوان پروژه</label>
+                    <input name="title" class="form-control" value="{{ old('title') }}" required>
+                </div>
+                <div class="col-12">
+                    <label class="form-label fw-semibold">توضیحات</label>
+                    <textarea name="description" class="form-control" rows="4">{{ old('description') }}</textarea>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-semibold">هزینه ماهانه</label>
+                    <input name="monthly_fee" type="number" class="form-control" value="{{ old('monthly_fee', 0) }}">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-semibold">وضعیت</label>
+                    <select name="status" class="form-select">
+                        <option value="active" @selected(old('status', 'active') === 'active')>فعال</option>
+                        <option value="inactive" @selected(old('status') === 'inactive')>غیرفعال</option>
+                        <option value="completed" @selected(old('status') === 'completed')>تمام‌شده</option>
+                    </select>
+                </div>
+            </div>
+            <div class="d-flex gap-2 mt-4">
+                <button class="btn btn-primary">ثبت پروژه</button>
+                <a href="{{ route('admin.projects.index') }}" class="btn btn-outline-secondary">بازگشت</a>
+            </div>
+        </form>
+    </div>
 </div>
 @endsection
