@@ -11,7 +11,7 @@ class ProjectController extends Controller
 {
     public function index()
     {
-        $projects = Project::with('customer')->latest()->paginate(15);
+        $projects = Project::with(['customer', 'payments'])->latest()->paginate(15);
         return view('admin.projects.index', compact('projects'));
     }
 
@@ -23,18 +23,20 @@ class ProjectController extends Controller
 
     public function store(Request $request)
     {
-        $data = $request->validate([
-            'customer_id' => ['required', 'exists:customers,id'],
-            'title' => ['required', 'string', 'max:255'],
-            'description' => ['nullable', 'string'],
-            'monthly_fee' => ['nullable', 'numeric', 'min:0'],
-            'status' => ['required', 'in:active,inactive,completed'],
-        ]);
+        $data = $this->validatedData($request);
+        $data = $this->normalizeFinanceDefaults($data);
 
         Project::create($data);
 
         return redirect()->route('admin.projects.index')
             ->with('success', 'پروژه ثبت شد.');
+    }
+
+    public function show(Project $project)
+    {
+        $project->load(['customer', 'payments.approvedBy', 'payments.customer']);
+
+        return view('admin.projects.show', compact('project'));
     }
 
     public function edit(Project $project)
@@ -45,13 +47,8 @@ class ProjectController extends Controller
 
     public function update(Request $request, Project $project)
     {
-        $data = $request->validate([
-            'customer_id' => ['required', 'exists:customers,id'],
-            'title' => ['required', 'string', 'max:255'],
-            'description' => ['nullable', 'string'],
-            'monthly_fee' => ['nullable', 'numeric', 'min:0'],
-            'status' => ['required', 'in:active,inactive,completed'],
-        ]);
+        $data = $this->validatedData($request);
+        $data = $this->normalizeFinanceDefaults($data);
 
         $project->update($data);
 
@@ -64,5 +61,29 @@ class ProjectController extends Controller
         $project->delete();
 
         return back()->with('success', 'پروژه حذف شد.');
+    }
+
+    private function normalizeFinanceDefaults(array $data): array
+    {
+        foreach (['initial_fee', 'monthly_fee', 'debt_adjustment', 'credit_adjustment'] as $field) {
+            $data[$field] = $data[$field] ?? 0;
+        }
+
+        return $data;
+    }
+
+    private function validatedData(Request $request): array
+    {
+        return $request->validate([
+            'customer_id' => ['required', 'exists:customers,id'],
+            'title' => ['required', 'string', 'max:255'],
+            'description' => ['nullable', 'string'],
+            'initial_fee' => ['nullable', 'numeric', 'min:0'],
+            'monthly_fee' => ['nullable', 'numeric', 'min:0'],
+            'debt_adjustment' => ['nullable', 'numeric', 'min:0'],
+            'credit_adjustment' => ['nullable', 'numeric', 'min:0'],
+            'finance_note' => ['nullable', 'string'],
+            'status' => ['required', 'in:active,inactive,completed'],
+        ]);
     }
 }
