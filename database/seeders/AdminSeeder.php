@@ -11,10 +11,9 @@ class AdminSeeder extends Seeder
     public function run(): void
     {
         User::updateOrCreate(
-            ['email' => 'admin@jahesh.ir'],
+            ['phone' => '09111111111'],
             [
                 'name' => 'مدیر مجموعه جهش',
-                'phone' => '09111111111',
                 'role' => 'admin',
                 'password' => Hash::make('12345678'),
             ]
