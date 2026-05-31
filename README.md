@@ -23,6 +23,7 @@ php artisan key:generate
 touch database/database.sqlite
 php artisan migrate --seed
 php artisan storage:link
+php artisan optimize:clear
 npm install
 npm run build
 php artisan serve
@@ -45,6 +46,7 @@ composer run dev
 یا به صورت جداگانه:
 
 ```bash
+php artisan optimize:clear
 php artisan serve
 npm run dev
 ```

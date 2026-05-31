@@ -41,7 +41,7 @@
                         </td>
                     </tr>
                 @empty
-                    <tr><td colspan="4"><div class="empty-state"><div class="empty-state-icon">✅</div><div>برای این ماه مشتری بدهکار پیدا نشد.</div></div></td></tr>
+                    <tr><td colspan="4"><div class="empty-state"><div class="empty-state-icon"><i class="bi bi-check-circle"></i></div><div>برای این ماه مشتری بدهکار پیدا نشد.</div></div></td></tr>
                 @endforelse
             </tbody>
         </table>

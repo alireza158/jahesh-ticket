@@ -15,13 +15,13 @@
                 <div class="row g-3 position-relative">
                     <div class="col-6">
                         <div class="bg-white bg-opacity-10 rounded-4 p-3">
-                            <div class="fs-3">🎫</div>
+                            <div class="fs-3"><i class="bi bi-ticket-detailed"></i></div>
                             <div class="fw-bold mt-2">مدیریت تیکت</div>
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="bg-white bg-opacity-10 rounded-4 p-3">
-                            <div class="fs-3">💳</div>
+                            <div class="fs-3"><i class="bi bi-credit-card"></i></div>
                             <div class="fw-bold mt-2">پیگیری پرداخت</div>
                         </div>
                     </div>

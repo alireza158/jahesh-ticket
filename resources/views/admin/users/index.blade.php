@@ -16,7 +16,7 @@
         <h3 class="fw-bold mb-2">کاربران و پرسنل</h3>
         <p class="mb-0">ساخت اکانت مشتری، تعریف مدیر وبسایت و پرسنل پشتیبانی</p>
     </div>
-    <a href="{{ route('admin.users.create') }}" class="btn btn-light text-primary">➕ افزودن کاربر</a>
+    <a href="{{ route('admin.users.create') }}" class="btn btn-primary">افزودن کاربر</a>
 </div>
 
 <div class="card">
@@ -52,7 +52,7 @@
                         </td>
                     </tr>
                 @empty
-                    <tr><td colspan="5"><div class="empty-state"><div class="empty-state-icon">🧑‍💼</div><div>هنوز کاربری ثبت نشده است.</div></div></td></tr>
+                    <tr><td colspan="5"><div class="empty-state"><div class="empty-state-icon"><i class="bi bi-person-badge"></i></div><div>هنوز کاربری ثبت نشده است.</div></div></td></tr>
                 @endforelse
             </tbody>
         </table>

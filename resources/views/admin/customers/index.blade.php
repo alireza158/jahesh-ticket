@@ -8,7 +8,7 @@
         <h3 class="fw-bold mb-2">مشتریان</h3>
         <p class="mb-0">مدیریت اطلاعات مشتریان، شرکت‌ها و وضعیت همکاری</p>
     </div>
-    <a href="{{ route('admin.customers.create') }}" class="btn btn-light text-primary">➕ افزودن مشتری</a>
+    <a href="{{ route('admin.customers.create') }}" class="btn btn-primary">افزودن مشتری</a>
 </div>
 
 <div class="card">
@@ -50,7 +50,7 @@
                 @empty
                     <tr>
                         <td colspan="5">
-                            <div class="empty-state"><div class="empty-state-icon">👥</div><div>هنوز مشتری ثبت نشده است.</div></div>
+                            <div class="empty-state"><div class="empty-state-icon"><i class="bi bi-people"></i></div><div>هنوز مشتری ثبت نشده است.</div></div>
                         </td>
                     </tr>
                 @endforelse

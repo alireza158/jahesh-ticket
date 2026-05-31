@@ -57,7 +57,7 @@
                         </td>
                     </tr>
                 @empty
-                    <tr><td colspan="8"><div class="empty-state"><div class="empty-state-icon">📁</div><div>هنوز پروژه‌ای ثبت نشده است.</div></div></td></tr>
+                    <tr><td colspan="8"><div class="empty-state"><div class="empty-state-icon"><i class="bi bi-folder2-open"></i></div><div>هنوز پروژه‌ای ثبت نشده است.</div></div></td></tr>
                 @endforelse
             </tbody>
         </table>

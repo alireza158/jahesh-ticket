@@ -3,45 +3,27 @@
 @section('title', 'مشاهده تیکت')
 
 @section('content')
-@php
-    $statusLabels = [
-        'open' => 'باز',
-        'in_progress' => 'در حال بررسی',
-        'waiting_customer' => 'در انتظار مشتری',
-        'answered' => 'پاسخ داده شده',
-        'closed' => 'بسته شده',
-    ];
-    $statusClasses = [
-        'open' => 'bg-primary-subtle text-primary',
-        'in_progress' => 'bg-info-subtle text-info',
-        'waiting_customer' => 'bg-warning-subtle text-warning',
-        'answered' => 'bg-success-subtle text-success',
-        'closed' => 'bg-secondary-subtle text-secondary',
-    ];
-@endphp
 <div class="page-header d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3">
     <div>
         <h3 class="fw-bold mb-2">{{ $ticket->title }}</h3>
         <p class="mb-0">مشتری: {{ $ticket->customer->name }} | پروژه: {{ $ticket->project?->title ?? '-' }}</p>
     </div>
-    <span class="badge bg-white text-primary fs-6 px-3 py-2">{{ $statusLabels[$ticket->status] ?? $ticket->status }}</span>
+    <div class="d-flex flex-wrap gap-2">
+        @include('partials.priority-badge', ['priority' => $ticket->priority])
+        @include('partials.status-badge', ['status' => $ticket->status])
+    </div>
 </div>
 
 <div class="row g-4">
     <div class="col-lg-8">
         <div class="card mb-4">
-            <div class="card-header d-flex flex-wrap gap-2 justify-content-between align-items-center">
-                <h5 class="mb-0 fw-bold">جزئیات تیکت</h5>
-                <div class="d-flex flex-wrap gap-2">
-                    @if($ticket->priority === 'high')
-                        <span class="badge badge-priority-high">اولویت زیاد</span>
-                    @elseif($ticket->priority === 'medium')
-                        <span class="badge badge-priority-medium">اولویت متوسط</span>
-                    @else
-                        <span class="badge badge-priority-low">اولویت کم</span>
-                    @endif
-                    <span class="badge {{ $statusClasses[$ticket->status] ?? 'bg-secondary-subtle text-secondary' }}">{{ $statusLabels[$ticket->status] ?? $ticket->status }}</span>
-                </div>
+            <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+                <h5 class="mb-0 fw-bold">جزئیات درخواست</h5>
+                @if($ticket->attachment_path)
+                    <a href="{{ asset('storage/'.$ticket->attachment_path) }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                        <i class="bi bi-paperclip ms-1"></i> دانلود پیوست
+                    </a>
+                @endif
             </div>
             <div class="card-body p-4">
                 <div class="row g-3 mb-4">
@@ -49,39 +31,44 @@
                     <div class="col-md-4"><div class="p-3 rounded-4 bg-light"><div class="text-muted small">ارجاع به</div><div class="fw-semibold">{{ $ticket->assignedStaff?->name ?? '-' }}</div></div></div>
                     <div class="col-md-4"><div class="p-3 rounded-4 bg-light"><div class="text-muted small">تاریخ ثبت</div><div class="fw-semibold">{{ \App\Support\JalaliDate::format($ticket->created_at, 'Y/m/d H:i') }}</div></div></div>
                 </div>
-
-                <div class="lh-lg">{{ $ticket->description }}</div>
-
-                @if($ticket->attachment_path)
-                    <a href="{{ asset('storage/'.$ticket->attachment_path) }}" target="_blank" class="btn btn-outline-secondary mt-4">دانلود فایل پیوست</a>
-                @endif
+                <p class="lh-lg mb-0">{{ $ticket->description }}</p>
             </div>
         </div>
 
         <div class="card">
-            <div class="card-header"><h5 class="mb-0 fw-bold">پاسخ‌ها و یادداشت‌ها</h5></div>
+            <div class="card-header"><h5 class="mb-0 fw-bold">گفتگو و یادداشت‌ها</h5></div>
             <div class="card-body p-4">
-                @forelse($ticket->replies as $reply)
-                    @if($reply->is_internal && auth()->user()->role === 'customer')
-                        @continue
-                    @endif
+                <div class="ticket-thread">
+                    @forelse($ticket->replies as $reply)
+                        @if($reply->is_internal && auth()->user()->role === 'customer')
+                            @continue
+                        @endif
 
-                    <div class="border rounded-4 p-3 p-md-4 mb-3 {{ $reply->is_internal ? 'bg-warning-subtle border-warning-subtle' : 'bg-light' }}">
-                        <div class="d-flex flex-wrap justify-content-between gap-2 mb-2">
-                            <div class="fw-bold">{{ $reply->user->name }}</div>
-                            <div class="small text-muted">{{ \App\Support\JalaliDate::format($reply->created_at, 'Y/m/d H:i') }}</div>
+                        <div class="ticket-message {{ $reply->is_internal ? 'internal' : '' }}">
+                            <div class="ticket-message-avatar">{{ mb_substr($reply->user->name, 0, 1) }}</div>
+                            <div class="ticket-message-body">
+                                <div class="d-flex flex-wrap justify-content-between gap-2 mb-2">
+                                    <div class="fw-bold">{{ $reply->user->name }}</div>
+                                    <div class="small text-muted">{{ \App\Support\JalaliDate::format($reply->created_at, 'Y/m/d H:i') }}</div>
+                                </div>
+                                @if($reply->is_internal)
+                                    <span class="badge bg-warning-subtle text-warning mb-2">یادداشت داخلی</span>
+                                @endif
+                                <p class="mb-2 lh-lg">{{ $reply->message }}</p>
+                                @if($reply->attachment_path)
+                                    <a href="{{ asset('storage/'.$reply->attachment_path) }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                        <i class="bi bi-download ms-1"></i> دانلود فایل
+                                    </a>
+                                @endif
+                            </div>
                         </div>
-                        @if($reply->is_internal)
-                            <span class="badge bg-warning text-dark mb-2">یادداشت داخلی</span>
-                        @endif
-                        <p class="mb-2 lh-lg">{{ $reply->message }}</p>
-                        @if($reply->attachment_path)
-                            <a href="{{ asset('storage/'.$reply->attachment_path) }}" target="_blank" class="btn btn-sm btn-outline-primary">دانلود فایل</a>
-                        @endif
-                    </div>
-                @empty
-                    <div class="empty-state"><div class="empty-state-icon">💬</div><div>هنوز پاسخی برای این تیکت ثبت نشده است.</div></div>
-                @endforelse
+                    @empty
+                        <div class="empty-state">
+                            <div class="empty-state-icon"><i class="bi bi-chat-dots"></i></div>
+                            <div class="fw-bold">هنوز پاسخی ثبت نشده است</div>
+                        </div>
+                    @endforelse
+                </div>
 
                 <hr class="my-4">
 
@@ -101,7 +88,7 @@
                             <label class="form-check-label" for="is_internal">یادداشت داخلی فقط برای مدیر/پرسنل</label>
                         </div>
                     @endif
-                    <button class="btn btn-primary">ارسال پاسخ</button>
+                    <button class="btn btn-primary"><i class="bi bi-send ms-1"></i> ارسال پاسخ</button>
                 </form>
             </div>
         </div>
@@ -168,7 +155,7 @@
                             <small class="text-muted d-block mt-1">{{ $assignment->note ?: 'بدون یادداشت' }}</small>
                         </div>
                     @empty
-                        <div class="empty-state py-3"><div class="empty-state-icon">↪️</div><div>هنوز ارجاعی ثبت نشده است.</div></div>
+                        <div class="empty-state py-3"><div class="empty-state-icon"><i class="bi bi-arrow-left-right"></i></div><div>هنوز ارجاعی ثبت نشده است.</div></div>
                     @endforelse
                 </div>
             </div>

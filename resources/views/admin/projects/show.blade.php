@@ -3,18 +3,7 @@
 @section('title', 'جزئیات پروژه')
 
 @section('content')
-@php
-    $paymentStatusLabels = [
-        'pending' => 'در انتظار تایید',
-        'approved' => 'تایید شده',
-        'rejected' => 'رد شده',
-    ];
-    $paymentStatusClasses = [
-        'pending' => 'bg-warning-subtle text-warning',
-        'approved' => 'bg-success-subtle text-success',
-        'rejected' => 'bg-danger-subtle text-danger',
-    ];
-@endphp
+
 <div class="page-header d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3">
     <div>
         <h3 class="fw-bold mb-2">{{ $project->title }}</h3>
@@ -74,7 +63,7 @@
                                 <td class="fw-semibold">{{ number_format($payment->amount) }} تومان</td>
                                 <td>{{ $payment->payment_month ?? '-' }}</td>
                                 <td>{{ \App\Support\JalaliDate::format($payment->paid_at, 'Y/m/d') }}</td>
-                                <td><span class="badge {{ $paymentStatusClasses[$payment->status] ?? 'bg-secondary-subtle text-secondary' }}">{{ $paymentStatusLabels[$payment->status] ?? $payment->status }}</span></td>
+                                <td>@include('partials.status-badge', ['status' => $payment->status])</td>
                                 <td>
                                     @if($payment->receipt_path)
                                         <a href="{{ asset('storage/'.$payment->receipt_path) }}" target="_blank" class="btn btn-sm btn-outline-primary">رسید</a>
@@ -85,7 +74,7 @@
                                 <td>{{ $payment->approvedBy?->name ?? '-' }}</td>
                             </tr>
                         @empty
-                            <tr><td colspan="6"><div class="empty-state"><div class="empty-state-icon">💳</div><div>هنوز پرداختی برای این پروژه ثبت نشده است.</div></div></td></tr>
+                            <tr><td colspan="6"><div class="empty-state"><div class="empty-state-icon"><i class="bi bi-credit-card"></i></div><div>هنوز پرداختی برای این پروژه ثبت نشده است.</div></div></td></tr>
                         @endforelse
                     </tbody>
                 </table>

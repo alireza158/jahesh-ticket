@@ -3,18 +3,7 @@
 @section('title', 'پرداخت‌های مشتریان')
 
 @section('content')
-@php
-    $paymentStatusLabels = [
-        'pending' => 'در انتظار تایید',
-        'approved' => 'تایید شده',
-        'rejected' => 'رد شده',
-    ];
-    $paymentStatusClasses = [
-        'pending' => 'bg-warning-subtle text-warning',
-        'approved' => 'bg-success-subtle text-success',
-        'rejected' => 'bg-danger-subtle text-danger',
-    ];
-@endphp
+
 <div class="page-header d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3">
     <div>
         <h3 class="fw-bold mb-2">پرداخت‌های مشتریان</h3>
@@ -51,7 +40,7 @@
                         <td>{{ $payment->project?->title ?? '-' }}</td>
                         <td>{{ number_format($payment->amount) }} تومان</td>
                         <td>{{ $payment->payment_month ?? '-' }}</td>
-                        <td><span class="badge {{ $paymentStatusClasses[$payment->status] ?? 'bg-secondary-subtle text-secondary' }}">{{ $paymentStatusLabels[$payment->status] ?? $payment->status }}</span></td>
+                        <td>@include('partials.status-badge', ['status' => $payment->status])</td>
                         <td>
                             @if($payment->receipt_path)
                                 <a href="{{ asset('storage/'.$payment->receipt_path) }}" target="_blank" class="btn btn-sm btn-outline-primary">مشاهده رسید</a>
@@ -76,7 +65,7 @@
                         </td>
                     </tr>
                 @empty
-                    <tr><td colspan="7"><div class="empty-state"><div class="empty-state-icon">💳</div><div>هنوز پرداختی ثبت نشده است.</div></div></td></tr>
+                    <tr><td colspan="7"><div class="empty-state"><div class="empty-state-icon"><i class="bi bi-credit-card"></i></div><div>هنوز پرداختی ثبت نشده است.</div></div></td></tr>
                 @endforelse
             </tbody>
         </table>

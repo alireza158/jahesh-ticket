@@ -8,7 +8,7 @@
         <h3 class="fw-bold mb-2">داشبورد</h3>
         <p class="mb-0">خلاصه وضعیت تیکت‌ها، مشتریان و پرداخت‌های سامانه جهش</p>
     </div>
-    <div class="badge bg-white text-primary fs-6 px-3 py-2">{{ auth()->user()->name }}</div>
+    <div class="badge bg-primary-subtle text-primary fs-6 px-3 py-2">{{ auth()->user()->name }}</div>
 </div>
 
 <div class="row g-4">
@@ -20,7 +20,7 @@
                         <p class="text-muted mb-1">مشتریان</p>
                         <h2 class="fw-bold mb-0">{{ $customersCount }}</h2>
                     </div>
-                    <span class="stat-icon">👥</span>
+                    <span class="stat-icon"><i class="bi bi-people"></i></span>
                 </div>
             </div>
         </div>
@@ -33,7 +33,7 @@
                     <p class="text-muted mb-1">کل تیکت‌ها</p>
                     <h2 class="fw-bold mb-0">{{ $ticketsCount ?? 0 }}</h2>
                 </div>
-                <span class="stat-icon">🎫</span>
+                <span class="stat-icon"><i class="bi bi-ticket-detailed"></i></span>
             </div>
         </div>
     </div>
@@ -45,7 +45,7 @@
                     <p class="text-muted mb-1">تیکت‌های باز</p>
                     <h2 class="fw-bold mb-0">{{ $openTickets ?? 0 }}</h2>
                 </div>
-                <span class="stat-icon">🟢</span>
+                <span class="stat-icon"><i class="bi bi-check-circle"></i></span>
             </div>
         </div>
     </div>
@@ -58,7 +58,7 @@
                         <p class="text-muted mb-1">پرداخت‌های در انتظار</p>
                         <h2 class="fw-bold mb-0">{{ $pendingPayments }}</h2>
                     </div>
-                    <span class="stat-icon">💳</span>
+                    <span class="stat-icon"><i class="bi bi-credit-card"></i></span>
                 </div>
             </div>
         </div>
