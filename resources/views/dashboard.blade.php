@@ -98,6 +98,109 @@
         </div>
     @endif
 
+
+    @if(isset($tasksCount))
+        <div class="col-md-6 col-xl-3">
+            <div class="card stat-card p-4 h-100">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <p class="text-muted mb-1">کل تسک‌ها</p>
+                        <h2 class="fw-bold mb-0">{{ $tasksCount }}</h2>
+                        <small class="text-muted">همه تسک‌های تعریف‌شده</small>
+                    </div>
+                    <span class="stat-icon"><i class="bi bi-list-task"></i></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-3">
+            <div class="card stat-card p-4 h-100">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <p class="text-muted mb-1">تسک‌های انجام‌نشده</p>
+                        <h2 class="fw-bold mb-0">{{ $pendingTasks }}</h2>
+                        <small class="text-muted">نیازمند شروع کار</small>
+                    </div>
+                    <span class="stat-icon"><i class="bi bi-hourglass-split"></i></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-3">
+            <div class="card stat-card p-4 h-100">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <p class="text-muted mb-1">تسک‌های در حال انجام</p>
+                        <h2 class="fw-bold mb-0">{{ $inProgressTasks }}</h2>
+                        <small class="text-muted">در جریان اجرا</small>
+                    </div>
+                    <span class="stat-icon"><i class="bi bi-play-circle"></i></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-3">
+            <div class="card stat-card p-4 h-100">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <p class="text-muted mb-1">تسک‌های عقب‌افتاده</p>
+                        <h2 class="fw-bold text-danger mb-0">{{ $overdueTasks }}</h2>
+                        <small class="text-muted">خارج از ددلاین</small>
+                    </div>
+                    <span class="stat-icon"><i class="bi bi-exclamation-triangle"></i></span>
+                </div>
+            </div>
+        </div>
+    @endif
+
+    @if(isset($myTasksCount))
+        <div class="col-md-6 col-xl-3">
+            <div class="card stat-card p-4 h-100">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <p class="text-muted mb-1">تسک‌های من</p>
+                        <h2 class="fw-bold mb-0">{{ $myTasksCount }}</h2>
+                        <small class="text-muted">تسک‌های ارجاع‌شده به شما</small>
+                    </div>
+                    <span class="stat-icon"><i class="bi bi-list-task"></i></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-3">
+            <div class="card stat-card p-4 h-100">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <p class="text-muted mb-1">انجام‌نشده من</p>
+                        <h2 class="fw-bold mb-0">{{ $myPendingTasks }}</h2>
+                        <small class="text-muted">در انتظار شروع</small>
+                    </div>
+                    <span class="stat-icon"><i class="bi bi-hourglass-split"></i></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-3">
+            <div class="card stat-card p-4 h-100">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <p class="text-muted mb-1">در حال انجام من</p>
+                        <h2 class="fw-bold mb-0">{{ $myInProgressTasks }}</h2>
+                        <small class="text-muted">تسک‌های فعال شما</small>
+                    </div>
+                    <span class="stat-icon"><i class="bi bi-play-circle"></i></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-3">
+            <div class="card stat-card p-4 h-100">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <p class="text-muted mb-1">عقب‌افتاده من</p>
+                        <h2 class="fw-bold text-danger mb-0">{{ $myOverdueTasks }}</h2>
+                        <small class="text-muted">نیازمند پیگیری فوری</small>
+                    </div>
+                    <span class="stat-icon"><i class="bi bi-exclamation-triangle"></i></span>
+                </div>
+            </div>
+        </div>
+    @endif
+
     @if(isset($pendingPayments))
         <div class="col-md-6 col-xl-3">
             <div class="card stat-card p-4 h-100">

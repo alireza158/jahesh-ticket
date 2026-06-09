@@ -28,6 +28,11 @@ class Project extends Model
         return $this->hasMany(Ticket::class);
     }
 
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
+    }
+
     public function payments()
     {
         return $this->hasMany(Payment::class);

@@ -29,6 +29,7 @@
                     <th>مانده بدهی</th>
                     <th>بستانکاری</th>
                     <th>وضعیت</th>
+                    <th>تسک‌ها</th>
                     <th class="text-end">عملیات</th>
                 </tr>
             </thead>
@@ -45,6 +46,7 @@
                             @php($projectStatus = ['active' => 'فعال', 'inactive' => 'غیرفعال', 'completed' => 'تمام‌شده'])
                             <span class="badge bg-secondary-subtle text-secondary">{{ $projectStatus[$project->status] ?? $project->status }}</span>
                         </td>
+                        <td><a href="{{ route('tasks.index', ['q' => $project->title]) }}" class="badge bg-info-subtle text-info">{{ $project->tasks_count }} تسک</a></td>
                         <td class="text-end">
                             <a href="{{ route('admin.projects.show', $project) }}" class="btn btn-sm btn-outline-primary">جزئیات</a>
                             <a href="{{ route('admin.payments.create', ['project_id' => $project->id]) }}" class="btn btn-sm btn-outline-success">ثبت پرداخت</a>
@@ -59,7 +61,7 @@
                         </td>
                     </tr>
                 @empty
-                    <tr><td colspan="8"><div class="empty-state"><div class="empty-state-icon"><i class="bi bi-folder2-open"></i></div><div>هنوز پروژه‌ای ثبت نشده است.</div></div></td></tr>
+                    <tr><td colspan="9"><div class="empty-state"><div class="empty-state-icon"><i class="bi bi-folder2-open"></i></div><div>هنوز پروژه‌ای ثبت نشده است.</div></div></td></tr>
                 @endforelse
             </tbody>
         </table>

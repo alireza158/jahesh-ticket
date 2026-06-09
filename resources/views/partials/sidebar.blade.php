@@ -11,6 +11,9 @@
 <nav>
     <a class="sidebar-link" href="{{ route('dashboard') }}"><i class="bi bi-grid-1x2"></i><span>داشبورد</span></a>
     <a class="sidebar-link" href="{{ route('tickets.index') }}"><i class="bi bi-ticket-detailed"></i><span>تیکت‌ها</span></a>
+    @if(in_array($user->role, ['admin', 'website_manager', 'staff']))
+        <a class="sidebar-link" href="{{ route('tasks.index') }}"><i class="bi bi-list-task"></i><span>تسک‌ها</span></a>
+    @endif
 
     @if($user->role === 'customer')
         <a class="sidebar-link" href="{{ route('tickets.create') }}"><i class="bi bi-plus-circle"></i><span>ثبت تیکت</span></a>
