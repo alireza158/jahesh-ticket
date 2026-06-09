@@ -10,6 +10,8 @@
         <p class="mb-0">مشتری: {{ $project->customer?->name ?? '-' }}</p>
     </div>
     <div class="d-flex gap-2">
+        <a href="{{ route('tasks.index', ['q' => $project->title]) }}" class="btn btn-outline-primary">تسک‌های این پروژه</a>
+        <a href="{{ route('tasks.create', ['project_id' => $project->id]) }}" class="btn btn-primary">ایجاد تسک</a>
         <a href="{{ route('admin.payments.create', ['project_id' => $project->id]) }}" class="btn btn-primary">ثبت پرداخت</a>
         <a href="{{ route('admin.projects.edit', $project) }}" class="btn btn-outline-secondary">ویرایش پروژه</a>
     </div>
@@ -75,6 +77,41 @@
                             </tr>
                         @empty
                             <tr><td colspan="6"><div class="empty-state"><div class="empty-state-icon"><i class="bi bi-credit-card"></i></div><div>هنوز پرداختی برای این پروژه ثبت نشده است.</div></div></td></tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card mt-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0 fw-bold">تسک‌های پروژه</h5>
+                <span class="badge bg-primary-subtle text-primary">{{ $project->tasks->count() }} تسک</span>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th>عنوان</th>
+                            <th>مسئول</th>
+                            <th>اولویت</th>
+                            <th>وضعیت</th>
+                            <th>ددلاین</th>
+                            <th class="text-end">عملیات</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($project->tasks as $task)
+                            <tr>
+                                <td class="fw-semibold">{{ $task->title }}</td>
+                                <td>{{ $task->assignedUser?->name ?? '-' }}</td>
+                                <td>@include('partials.priority-badge', ['priority' => $task->priority])</td>
+                                <td>@include('partials.status-badge', ['status' => $task->status, 'type' => 'task'])</td>
+                                <td>{{ \App\Support\JalaliDate::format($task->deadline, 'Y/m/d') }}</td>
+                                <td class="text-end"><a href="{{ route('tasks.show', $task) }}" class="btn btn-sm btn-outline-primary">مشاهده</a></td>
+                            </tr>
+                        @empty
+                            <tr><td colspan="6"><div class="empty-state"><div class="empty-state-icon"><i class="bi bi-list-task"></i></div><div>هنوز تسکی برای این پروژه ثبت نشده است.</div></div></td></tr>
                         @endforelse
                     </tbody>
                 </table>

@@ -13,7 +13,7 @@ class ProjectController extends Controller
     {
         $search = $request->string('q')->toString();
 
-        $projects = Project::with(['customer', 'payments'])
+        $projects = Project::with(['customer', 'payments'])->withCount('tasks')
             ->when($search, function ($query) use ($search) {
                 $query->where(function ($query) use ($search) {
                     $query->where('title', 'like', "%{$search}%")
@@ -51,7 +51,7 @@ class ProjectController extends Controller
 
     public function show(Project $project)
     {
-        $project->load(['customer', 'payments.approvedBy', 'payments.customer']);
+        $project->load(['customer', 'payments.approvedBy', 'payments.customer', 'tasks.assignedUser']);
 
         return view('admin.projects.show', compact('project'));
     }

@@ -364,6 +364,21 @@ a {
     color: #b45309;
 }
 
+.badge-status-task-pending {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+.badge-status-task-in_progress {
+    background: #cffafe;
+    color: #0e7490;
+}
+
+.badge-status-task-done {
+    background: #dcfce7;
+    color: #15803d;
+}
+
 .badge-status-approved {
     background: #dcfce7;
     color: #15803d;
@@ -567,4 +582,15 @@ a {
 .login-box .btn-primary:hover {
     background: #2563eb;
     border-color: #2563eb;
+}
+.task-note-timeline {
+    position: relative;
+}
+
+.task-note-card {
+    border: 1px solid var(--app-border);
+    border-radius: 18px;
+    padding: 16px;
+    background: #f8fafc;
+    margin-bottom: 14px;
 }

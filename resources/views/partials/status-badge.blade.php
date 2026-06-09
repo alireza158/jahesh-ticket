@@ -1,14 +1,16 @@
-@props(['status'])
+@props(['status', 'type' => null])
 @php
     $labels = [
         'open' => 'باز',
-        'in_progress' => 'در حال بررسی',
+        'in_progress' => $type === 'task' ? 'در حال انجام' : 'در حال بررسی',
         'waiting_customer' => 'در انتظار مشتری',
         'answered' => 'پاسخ داده شده',
         'closed' => 'بسته شده',
-        'pending' => 'در انتظار تایید',
+        'pending' => $type === 'task' ? 'انجام نشده' : 'در انتظار تایید',
+        'done' => 'انجام شده',
         'approved' => 'تایید شده',
         'rejected' => 'رد شده',
     ];
+    $class = $type === 'task' ? "badge-status-task-{$status}" : "badge-status-{$status}";
 @endphp
-<span class="badge badge-status-{{ $status }}">{{ $labels[$status] ?? $status }}</span>
+<span class="badge {{ $class }}">{{ $labels[$status] ?? $status }}</span>
